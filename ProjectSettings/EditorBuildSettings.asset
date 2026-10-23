@@ -15,6 +15,60 @@ EditorBuildSettings:
     path: Assets/KichikRobot/Scenes/Level2.unity
     guid: aa143a4f9edd413418386da1be51c3c3
   - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level3.unity
+    guid: 90115a80b7605124a866d80cf8bc45f8
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level4.unity
+    guid: 5467833d5acac8d439d57edfee10def2
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level5.unity
+    guid: 75adf18b8fbd2af4da60b36862537d26
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level6.unity
+    guid: ca2f598cde74bed4d82acca69c306dfc
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level7.unity
+    guid: 790b66d0f3e875944a501b9a003b70d9
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level8.unity
+    guid: b944688d8c82cc045ad40b8ec4c731b5
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level9.unity
+    guid: db8fd9b3325303940b31c25770e15dea
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level10.unity
+    guid: eaf2b2ef2a4a95d46a9699928fb2d863
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level11.unity
+    guid: bb2da6aadee28274fb2c83da598801af
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level12.unity
+    guid: 9ae211fd533720b4aba6aaca36402776
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level13.unity
+    guid: 3c4bb828303be0a4696f5cf72f4b8671
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level14.unity
+    guid: e27d3ad296bf6f64eaf684e878afd37b
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level15.unity
+    guid: 57548040c3cb3634d98d2f81555d6fe8
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level16.unity
+    guid: b1e901e01e034c94a82e36684ae7676d
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level17.unity
+    guid: 121c4594a845b0e46a0722bd47f6e9ce
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level18.unity
+    guid: 6aff152dc27edd147a137a0684e117e0
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level19.unity
+    guid: b10aafcecf3ed5a46a80794d1cb7deb3
+  - enabled: 1
+    path: Assets/KichikRobot/Scenes/Level20.unity
+    guid: f3c8616753d816a458eb9f94ce039b17
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:

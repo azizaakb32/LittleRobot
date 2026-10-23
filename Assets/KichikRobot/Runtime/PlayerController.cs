@@ -23,6 +23,13 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Shu balandlikdan pastga tushsa o'ladi")]
     public float killY = -9f;
 
+    /// <summary>Robot yerda turibdimi (animatsiya uchun).</summary>
+    public bool IsGrounded { get; private set; }
+    /// <summary>Robot o'lganda (tuzoq yoki chuqur) chaqiriladi.</summary>
+    public event System.Action Died;
+    /// <summary>Daraja tugaganda chaqiriladi.</summary>
+    public event System.Action Finished;
+
     Rigidbody2D rb;
     Vector3 spawnPoint;
     float coyoteCounter;
@@ -41,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
         bool grounded = groundCheck != null &&
                         Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer) != null;
+        IsGrounded = grounded;
 
         coyoteCounter = grounded ? coyoteTime : coyoteCounter - Time.deltaTime;
         bufferCounter = MobileInput.JumpPressed ? jumpBufferTime : bufferCounter - Time.deltaTime;
@@ -84,6 +92,7 @@ public class PlayerController : MonoBehaviour
     {
         if (frozen) return;
         if (GameManager.Instance != null) GameManager.Instance.OnPlayerDied();
+        if (Died != null) Died();
         Respawn();
     }
 
@@ -100,6 +109,7 @@ public class PlayerController : MonoBehaviour
     public void Freeze()
     {
         frozen = true;
+        if (Finished != null) Finished();
         rb.SetVelocity(Vector2.zero);
         rb.simulated = false;
     }

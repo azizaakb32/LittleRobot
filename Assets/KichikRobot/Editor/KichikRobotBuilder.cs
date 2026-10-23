@@ -22,11 +22,8 @@ public static class KichikRobotBuilder
 
     // ---------- Ranglar (dizayndan) ----------
     static readonly Color BgColor = Hex("1B2540");
-    static readonly Color GearColor = Hex("24335A");
     static readonly Color BodyColor = Hex("2C3A5C");
     static readonly Color TealColor = Hex("6FD3C0");
-    static readonly Color AmberColor = Hex("FFB84D");
-    static readonly Color LiftColor = Hex("3F3A5C");
     static readonly Color DialogColor = Hex("2C3A5C");
     static readonly Color OrangeColor = Hex("FF8A3D");
     static readonly Color YellowColor = Hex("FFC93C");
@@ -54,6 +51,15 @@ public static class KichikRobotBuilder
     {
         new SpriteSpec("robot", 80, 0),
         new SpriteSpec("robot_happy", 80, 0),
+        new SpriteSpec("robot_blink", 80, 0),
+        new SpriteSpec("robot_run0", 80, 0),
+        new SpriteSpec("robot_run1", 80, 0),
+        new SpriteSpec("robot_run2", 80, 0),
+        new SpriteSpec("robot_run3", 80, 0),
+        new SpriteSpec("robot_run4", 80, 0),
+        new SpriteSpec("robot_run5", 80, 0),
+        new SpriteSpec("robot_jump", 80, 0),
+        new SpriteSpec("robot_fall", 80, 0),
         new SpriteSpec("coin", 64, 0),
         new SpriteSpec("key", 64, 0),
         new SpriteSpec("door", 64, 0),
@@ -84,17 +90,27 @@ public static class KichikRobotBuilder
     //  MENYU BANDLARI
     // =====================================================================
 
-    [MenuItem("Kichik Robot/1. Hammasini yaratish (Menu + Level1)")]
+    [MenuItem("Kichik Robot/1. Hammasini yaratish (Menu + barcha darajalar)")]
     public static void BuildAll()
     {
+        if (File.Exists(Level1ScenePath) &&
+            !EditorUtility.DisplayDialog("Kichik Robot",
+                "Menu va Level sahnalari qaytadan yaratiladi. Ularga qo'lda kiritgan o'zgarishlaringiz o'chib ketadi.\n\nDavom etamizmi?",
+                "Davom etish", "Bekor qilish"))
+            return;
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
 
         AssetDatabase.Refresh();
         if (!ConfigureSprites()) return;
         EnsureFolder(SceneDir.TrimEnd('/'));
 
-        BuildMenuScene();
-        BuildLevel1Scene();
+        int count = BuildAllLevels();
+        if (count == 0)
+        {
+            EditorUtility.DisplayDialog("Kichik Robot", "Levels/level_01.json topilmadi. Paketni qayta import qiling.", "OK");
+            return;
+        }
+        BuildMenuScene(count);
         RefreshBuildSettings();
 
         AssetDatabase.SaveAssets();
@@ -102,8 +118,25 @@ public static class KichikRobotBuilder
 
         EditorSceneManager.OpenScene(MenuScenePath);
         EditorUtility.DisplayDialog("Kichik Robot",
-            "Tayyor! 'Menu' sahnasi ochildi. Play bosing: 1-darajani tanlang va o'ynang.\n\n" +
+            "Tayyor! " + count + " ta daraja yaratildi. 'Menu' sahnasi ochildi, Play bosing.\n\n" +
             "Klaviatura: A/D yoki strelkalar, Space. Ekrandagi tugmalar telefon uchun.", "OK");
+    }
+
+    [MenuItem("Kichik Robot/4. Darajalarni JSON'dan qayta yaratish")]
+    public static void RebuildLevelsFromJson()
+    {
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+        AssetDatabase.Refresh();
+        if (!ConfigureSprites()) return;
+        EnsureFolder(SceneDir.TrimEnd('/'));
+
+        int count = BuildAllLevels();
+        BuildMenuScene(count);
+        RefreshBuildSettings();
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorSceneManager.OpenScene(MenuScenePath);
+        EditorUtility.DisplayDialog("Kichik Robot", count + " ta daraja Levels/*.json dan qayta yaratildi.", "OK");
     }
 
     [MenuItem("Kichik Robot/2. Yangi daraja qo'shish (Level1 nusxasi)")]
@@ -253,11 +286,14 @@ public static class KichikRobotBuilder
     //  1-DARAJA SAHNASI
     // =====================================================================
 
-    static void BuildLevel1Scene()
+    static void BuildLevelScene(LevelData d, string path)
     {
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         int ground = EnsureLayer("Ground");
         var root = new GameObject("Level").transform;
+
+        Color bg = Hex(d.bg), body = Hex(d.body), topC = Hex(d.top), gearC = Hex(d.gear);
+        Color moverBody = Hex(d.moverBody), moverTop = Hex(d.moverTop);
 
         // ----- Kamera -----
         var camGo = new GameObject("Main Camera");
@@ -266,60 +302,62 @@ public static class KichikRobotBuilder
         cam.orthographic = true;
         cam.orthographicSize = 5f;
         cam.clearFlags = CameraClearFlags.SolidColor;
-        cam.backgroundColor = BgColor;
+        cam.backgroundColor = bg;
         cam.nearClipPlane = -20f;
         cam.farClipPlane = 50f;
-        camGo.transform.position = new Vector3(0f, 1f, -10f);
+        camGo.transform.position = new Vector3(d.spawn.x, 1f, -10f);
         camGo.AddComponent<AudioListener>();
         var follow = camGo.AddComponent<CameraFollow>();
         follow.useBounds = true;
-        follow.minPos = new Vector2(-9f, -4f);
-        follow.maxPos = new Vector2(24f, 6f);
+        follow.minPos = new Vector2(d.boundsMin.x, d.boundsMin.y);
+        follow.maxPos = new Vector2(d.boundsMax.x, d.boundsMax.y);
 
-        // ----- Orqa fon: tishli g'ildiraklar -----
-        MakeGear(root, new Vector3(-3f, 3.5f, 0f), 1.4f, 8f);
-        MakeGear(root, new Vector3(6f, 4.5f, 0f), 0.9f, -12f);
-        MakeGear(root, new Vector3(12f, 1.5f, 0f), 1.8f, 6f);
-        MakeGear(root, new Vector3(19f, 5.5f, 0f), 1.1f, -9f);
+        // ----- Orqa fon -----
+        if (d.gears != null)
+            foreach (var g in d.gears)
+                MakeGear(root, new Vector3(g.x, g.y, 0f), g.scale, g.speed, gearC);
 
-        // ----- Zamin va devorlar (bitta birlik = 1 plitka) -----
-        Block("GroundA", root, -8f, -4f, 3f, 0f, BodyColor, TealColor, ground);
-        Block("PitFloor1", root, 3f, -4f, 9f, -2f, BodyColor, TealColor, ground);
-        Block("GroundB", root, 9f, -4f, 13f, 0f, BodyColor, TealColor, ground);
-        Block("PitFloor2", root, 13f, -4f, 16f, -2f, BodyColor, TealColor, ground);
-        Block("GroundC", root, 16f, -4f, 23f, 3f, BodyColor, TealColor, ground);
-        Block("Platform1", root, 5f, 0.75f, 7f, 1.25f, BodyColor, TealColor, ground);
-        Block("WallLeft", root, -9f, -4f, -8f, 6f, BodyColor, BodyColor, ground);
-        Block("WallRight", root, 23f, -4f, 24f, 6f, BodyColor, BodyColor, ground);
+        // ----- Zamin, platformalar, devorlar -----
+        foreach (var b in d.blocks)
+        {
+            Color topColor = b.kind == "wall" ? body : topC;
+            Block(string.IsNullOrEmpty(b.n) ? "Block" : b.n, root, b.x0, b.y0, b.x1, b.y1, body, topColor, ground);
+        }
 
-        // ----- Lift (harakatlanuvchi platforma) -----
-        var lift = Block("Lift", root, 13.5f, -0.25f, 15.5f, 0.25f, LiftColor, AmberColor, ground);
-        var liftRb = lift.AddComponent<Rigidbody2D>();
-        liftRb.bodyType = RigidbodyType2D.Kinematic;
-        var mover = lift.AddComponent<MovingPlatform>();
-        var pointB = new GameObject("LiftPointB");
-        pointB.transform.SetParent(root, false);
-        pointB.transform.position = new Vector3(14.5f, 2.7f, 0f);
-        mover.pointB = pointB.transform;
-        mover.speed = 2f;
+        // ----- Liftlar va harakatlanuvchi platformalar -----
+        if (d.movers != null)
+        {
+            foreach (var m in d.movers)
+            {
+                float hw = m.w * 0.5f;
+                var lift = Block("Mover", root, m.ax - hw, m.ay - 0.25f, m.ax + hw, m.ay + 0.25f, moverBody, moverTop, ground);
+                var rb = lift.AddComponent<Rigidbody2D>();
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                var mover = lift.AddComponent<MovingPlatform>();
+                var pointB = new GameObject("MoverPointB");
+                pointB.transform.SetParent(root, false);
+                pointB.transform.position = new Vector3(m.bx, m.by, 0f);
+                mover.pointB = pointB.transform;
+                mover.speed = m.speed > 0f ? m.speed : 2f;
+            }
+        }
 
         // ----- Tikanlar -----
-        MakeSpike(root, new Vector3(-0.5f, 0.25f, 0f));
-        for (int i = 0; i < 6; i++) MakeSpike(root, new Vector3(3.5f + i, -1.75f, 0f));
-        for (int i = 0; i < 3; i++) MakeSpike(root, new Vector3(13.5f + i, -1.75f, 0f));
+        if (d.spikes != null)
+            foreach (var s in d.spikes) MakeSpike(root, new Vector3(s.x, s.y, 0f));
 
-        // ----- Tangalar (5 ta) va kalit -----
-        MakePickup(root, "Coin1", S("coin"), new Vector3(-3f, 0.9f, 0f), Pickup.PickupType.Coin, 0.35f);
-        MakePickup(root, "Coin2", S("coin"), new Vector3(-0.5f, 2.2f, 0f), Pickup.PickupType.Coin, 0.35f);
-        MakePickup(root, "Coin3", S("coin"), new Vector3(6f, 2.3f, 0f), Pickup.PickupType.Coin, 0.35f);
-        MakePickup(root, "Coin4", S("coin"), new Vector3(11f, 0.9f, 0f), Pickup.PickupType.Coin, 0.35f);
-        MakePickup(root, "Coin5", S("coin"), new Vector3(14.5f, 4.2f, 0f), Pickup.PickupType.Coin, 0.35f);
-        MakePickup(root, "Key", S("key"), new Vector3(18.5f, 3.9f, 0f), Pickup.PickupType.Key, 0.4f);
+        // ----- Tangalar va kalit -----
+        if (d.coins != null)
+        {
+            for (int i = 0; i < d.coins.Count; i++)
+                MakePickup(root, "Coin" + (i + 1), S("coin"), new Vector3(d.coins[i].x, d.coins[i].y, 0f), Pickup.PickupType.Coin, 0.35f);
+        }
+        MakePickup(root, "Key", S("key"), new Vector3(d.key.x, d.key.y, 0f), Pickup.PickupType.Key, 0.4f);
 
         // ----- Eshik -----
         var doorGo = new GameObject("ExitDoor");
         doorGo.transform.SetParent(root, false);
-        doorGo.transform.position = new Vector3(21.5f, 4.0f, 0f);
+        doorGo.transform.position = new Vector3(d.door.x, d.door.y, 0f);
         var doorSr = doorGo.AddComponent<SpriteRenderer>();
         doorSr.sprite = S("door");
         doorSr.sortingOrder = 2;
@@ -330,25 +368,53 @@ public static class KichikRobotBuilder
         exit.doorSprite = doorSr;
 
         // ----- Robot -----
-        var player = MakePlayer(ground);
+        var player = MakePlayer(ground, new Vector3(d.spawn.x, d.spawn.y, 0f));
         follow.target = player.transform;
 
         // ----- Boshqaruvchi obyekt -----
         var gmGo = new GameObject("_Game");
         var gm = gmGo.AddComponent<GameManager>();
-        gm.levelNumber = 1;
-        gm.worldName = "Zavod";
-        gm.parTime = 35f;
-        gm.nextSceneName = "Level2";
+        gm.levelNumber = d.number;
+        gm.worldName = d.world;
+        gm.worldFirstLevel = d.worldFirst;
+        gm.parTime = d.par;
+        gm.nextSceneName = "Level" + (d.number + 1);
         gm.menuSceneName = "Menu";
 
-        // ----- Interfeys -----
         BuildGameUI(gm);
 
-        EditorSceneManager.SaveScene(scene, Level1ScenePath);
+        EditorSceneManager.SaveScene(scene, path);
     }
 
-    static void MakeGear(Transform parent, Vector3 pos, float scale, float speed)
+    static string LevelJsonPath(int n)
+    {
+        return Root + "/Levels/level_" + n.ToString("00") + ".json";
+    }
+
+    static LevelData LoadLevel(int n)
+    {
+        string path = LevelJsonPath(n);
+        if (!File.Exists(path)) return null;
+        var data = JsonUtility.FromJson<LevelData>(File.ReadAllText(path));
+        if (data != null && data.number <= 0) data.number = n;
+        return data;
+    }
+
+    /// <summary>Levels/ papkasidagi barcha JSON'dan sahnalarni yaratadi. Yaratilgan sonni qaytaradi.</summary>
+    static int BuildAllLevels()
+    {
+        int built = 0;
+        for (int n = 1; ; n++)
+        {
+            var data = LoadLevel(n);
+            if (data == null) break;
+            BuildLevelScene(data, LevelPath(n));
+            built++;
+        }
+        return built;
+    }
+
+    static void MakeGear(Transform parent, Vector3 pos, float scale, float speed, Color color)
     {
         var go = new GameObject("Gear");
         go.transform.SetParent(parent, false);
@@ -356,7 +422,7 @@ public static class KichikRobotBuilder
         go.transform.localScale = new Vector3(scale, scale, 1f);
         var sr = go.AddComponent<SpriteRenderer>();
         sr.sprite = S("gear");
-        sr.color = GearColor;
+        sr.color = color;
         sr.sortingOrder = -20;
         var spin = go.AddComponent<Spin>();
         spin.degreesPerSecond = speed;
@@ -428,7 +494,7 @@ public static class KichikRobotBuilder
         pickup.type = type;
     }
 
-    static GameObject MakePlayer(int groundLayerIndex)
+    static GameObject MakePlayer(int groundLayerIndex, Vector3 spawn)
     {
         EnsureFolder(PhysicsDir);
         string matPath = PhysicsDir + "/NoFriction.asset";
@@ -443,9 +509,16 @@ public static class KichikRobotBuilder
 
         var go = new GameObject("Robot");
         go.tag = "Player";
-        go.transform.position = new Vector3(-6f, 0.75f, 0f);
+        go.transform.position = spawn;
 
-        var sr = go.AddComponent<SpriteRenderer>();
+        // Ko'rinish: Visual (oyoq nuqtasida, squash/stretch shu yerda) > Sprite
+        var visual = new GameObject("Visual");
+        visual.transform.SetParent(go.transform, false);
+        visual.transform.localPosition = new Vector3(0f, -0.65f, 0f);
+        var spriteGo = new GameObject("Sprite");
+        spriteGo.transform.SetParent(visual.transform, false);
+        spriteGo.transform.localPosition = new Vector3(0f, 0.65f, 0f);
+        var sr = spriteGo.AddComponent<SpriteRenderer>();
         sr.sprite = S("robot");
         sr.sortingOrder = 10;
 
@@ -468,6 +541,21 @@ public static class KichikRobotBuilder
         pc.groundCheck = check.transform;
         pc.groundLayer = 1 << groundLayerIndex;
         pc.killY = -9f;
+
+        var anim = visual.AddComponent<PlayerAnimator>();
+        anim.sr = sr;
+        anim.controller = pc;
+        anim.body = rb;
+        anim.idle = S("robot");
+        anim.blink = S("robot_blink");
+        anim.jump = S("robot_jump");
+        anim.fall = S("robot_fall");
+        anim.happy = S("robot_happy");
+        anim.run = new[]
+        {
+            S("robot_run0"), S("robot_run1"), S("robot_run2"),
+            S("robot_run3"), S("robot_run4"), S("robot_run5"),
+        };
 
         return go;
     }
@@ -611,7 +699,7 @@ public static class KichikRobotBuilder
     //  MENU SAHNASI (daraja tanlash)
     // =====================================================================
 
-    static void BuildMenuScene()
+    static void BuildMenuScene(int levelCount)
     {
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -624,18 +712,30 @@ public static class KichikRobotBuilder
         camGo.transform.position = new Vector3(0f, 0f, -10f);
         camGo.AddComponent<AudioListener>();
 
+        var menuGo = new GameObject("_Menu");
+        var menu = menuGo.AddComponent<LevelSelectMenu>();
+
         var canvas = NewCanvas();
         NewEventSystem();
         Transform ui = canvas.transform;
 
         var title = NewText(ui, "Title", "Zavod", 32, LightText, TextAnchor.MiddleLeft);
-        Place(title, TL, TL, new Vector2(48f, -20f), new Vector2(300f, 44f));
+        Place(title, TL, TL, new Vector2(48f, -20f), new Vector2(240f, 44f));
+
+        // Dunyo sahifalarini almashtirish tugmalari
+        var prev = NewButton(ui, "PrevWorld", S("ui_round"), PanelColor, S("icon_chevron"), LightText, 22f);
+        Place(prev, TC, TC, new Vector2(-40f, -20f), new Vector2(44f, 44f));
+        prev.transform.Find("Icon").localScale = new Vector3(-1f, 1f, 1f);
+        UnityEventTools.AddPersistentListener(prev.onClick, menu.PrevPage);
+        var next = NewButton(ui, "NextWorld", S("ui_round"), PanelColor, S("icon_chevron"), LightText, 22f);
+        Place(next, TC, TC, new Vector2(40f, -20f), new Vector2(44f, 44f));
+        UnityEventTools.AddPersistentListener(next.onClick, menu.NextPage);
 
         var starsPanel = NewImage(ui, "StarsPanel", S("ui_round"), PanelColor, false);
         Place(starsPanel, TR, TR, new Vector2(-24f, -20f), new Vector2(152f, 44f));
         var starsIcon = NewImage(starsPanel.transform, "Icon", S("icon_star"), YellowColor, false);
         Place(starsIcon, new Vector2(0f, 0.5f), new Vector2(0f, 0.5f), new Vector2(22f, 0f), new Vector2(24f, 24f));
-        var starsText = NewText(starsPanel.transform, "Text", "0 / 30", 20, LightText, TextAnchor.MiddleRight);
+        var starsText = NewText(starsPanel.transform, "Text", "0 / 0", 20, LightText, TextAnchor.MiddleRight);
         Place(starsText, new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-20f, 0f), new Vector2(80f, 44f));
 
         var grid = NewRect("Grid", ui);
@@ -646,13 +746,16 @@ public static class KichikRobotBuilder
         layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         layout.constraintCount = 5;
 
-        var tiles = new LevelTile[10];
-        for (int i = 0; i < 10; i++) tiles[i] = NewLevelTile(grid, i + 1);
+        var tiles = new LevelTile[levelCount];
+        for (int i = 0; i < levelCount; i++) tiles[i] = NewLevelTile(grid, i + 1);
 
-        var menuGo = new GameObject("_Menu");
-        var menu = menuGo.AddComponent<LevelSelectMenu>();
         menu.tiles = tiles;
         menu.totalStarsText = starsText;
+        menu.titleText = title;
+        menu.prevButton = prev;
+        menu.nextButton = next;
+        menu.tilesPerPage = 10;
+        menu.worldNames = new[] { "Zavod", "O'rmon", "Cho'l", "Muz", "Kosmos" };
 
         EditorSceneManager.SaveScene(scene, MenuScenePath);
     }

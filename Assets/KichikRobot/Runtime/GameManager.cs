@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [Tooltip("Daraja raqami (1 dan boshlanadi). Saqlash uchun kerak.")]
     public int levelNumber = 1;
     public string worldName = "Zavod";
+    [Tooltip("Shu dunyoning birinchi darajasi raqami (menyudagi 1-10, 11-20 ... uchun)")]
+    public int worldFirstLevel = 1;
     [Tooltip("Shu vaqtdan tez tugatsa, 3-yulduz (soniya)")]
     public float parTime = 35f;
     [Tooltip("Keyingi darajaning sahna nomi")]
@@ -61,7 +63,7 @@ public class GameManager : MonoBehaviour
 
         if (winPanel != null) winPanel.SetActive(false);
         if (pausePanel != null) pausePanel.SetActive(false);
-        if (levelLabel != null) levelLabel.text = worldName + " · " + levelNumber;
+        if (levelLabel != null) levelLabel.text = worldName + " · " + (levelNumber - worldFirstLevel + 1);
         SetKeyVisual(false);
         UpdateUI();
     }
