@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("G'alaba oynasida tanlangan personajning xursand rasmi")]
     public Image winCharacterImage;
     public Color starOn = new Color(1f, 0.788f, 0.235f, 1f);
-    public Color starOff = new Color(1f, 1f, 1f, 0.18f);
+    public Color starOff = new Color(0.843f, 0.863f, 0.922f, 1f);
 
     [Header("Pauza oynasi")]
     public GameObject pausePanel;

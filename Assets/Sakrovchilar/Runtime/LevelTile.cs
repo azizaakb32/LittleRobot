@@ -12,14 +12,14 @@ public class LevelTile : MonoBehaviour
     public GameObject lockIcon;
 
     [Header("Ranglar")]
-    public Color doneColor = new Color(0.173f, 0.227f, 0.361f, 1f);
+    public Color doneColor = Color.white;
     public Color currentColor = new Color(1f, 0.541f, 0.239f, 1f);
-    public Color lockedColor = new Color(0.133f, 0.18f, 0.302f, 1f);
-    public Color lightText = new Color(0.918f, 0.941f, 1f, 1f);
-    public Color darkText = new Color(0.078f, 0.125f, 0.239f, 1f);
-    public Color lockedText = new Color(0.561f, 0.627f, 0.784f, 1f);
+    public Color lockedColor = new Color(0.867f, 0.89f, 0.941f, 1f);
+    public Color lightText = new Color(0.169f, 0.137f, 0.251f, 1f);
+    public Color darkText = new Color(0.169f, 0.137f, 0.251f, 1f);
+    public Color lockedText = new Color(0.353f, 0.396f, 0.522f, 1f);
     public Color starOn = new Color(1f, 0.788f, 0.235f, 1f);
-    public Color starOff = new Color(1f, 1f, 1f, 0.18f);
+    public Color starOff = new Color(0.843f, 0.863f, 0.922f, 1f);
 
     public void Refresh(int unlockedLevel, int starCount, bool worldLocked = false)
     {
@@ -46,7 +46,7 @@ public class LevelTile : MonoBehaviour
                 if (stars[i] == null) continue;
                 stars[i].gameObject.SetActive(!locked);
                 if (i < starCount) stars[i].color = starOn;
-                else stars[i].color = current ? new Color(0.078f, 0.125f, 0.239f, 0.3f) : starOff;
+                else stars[i].color = current ? new Color(0.169f, 0.137f, 0.251f, 0.3f) : starOff;
             }
         }
 

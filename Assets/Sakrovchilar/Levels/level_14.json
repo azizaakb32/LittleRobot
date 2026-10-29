@@ -3,11 +3,14 @@
  "world": "O'rmon",
  "worldFirst": 11,
  "par": 29,
- "bg": "15301F",
- "body": "2F4F32",
- "top": "A6E36B",
- "gear": "1E3F2A",
- "moverBody": "5A4A2A",
+ "bg": "DFF6D2",
+ "skyTop": "86D4FF",
+ "hillFar": "A9E5A0",
+ "hillNear": "74D68E",
+ "body": "B97B45",
+ "top": "5ED36A",
+ "gear": "B9E5B0",
+ "moverBody": "A8743F",
  "moverTop": "FFC93C",
  "spawn": {
   "x": -6.0,
@@ -341,50 +344,7 @@
    "speed": 2.0
   }
  ],
- "gears": [
-  {
-   "x": -3.0,
-   "y": 1.87,
-   "scale": 1.22,
-   "speed": 10.9
-  },
-  {
-   "x": 10.83,
-   "y": 2.1,
-   "scale": 1.44,
-   "speed": -5.3
-  },
-  {
-   "x": 22.01,
-   "y": 5.74,
-   "scale": 1.13,
-   "speed": -9.7
-  },
-  {
-   "x": 33.97,
-   "y": 1.39,
-   "scale": 1.79,
-   "speed": -10.7
-  },
-  {
-   "x": 47.7,
-   "y": 3.73,
-   "scale": 0.91,
-   "speed": 9.9
-  },
-  {
-   "x": 59.99,
-   "y": 3.17,
-   "scale": 0.91,
-   "speed": 8.3
-  },
-  {
-   "x": 72.86,
-   "y": 3.57,
-   "scale": 1.59,
-   "speed": 7.9
-  }
- ],
+ "gears": [],
  "enemies": [
   {
    "x": 67.0,

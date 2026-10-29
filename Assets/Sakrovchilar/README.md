@@ -116,3 +116,10 @@ StoreService.PurchaseHandler = (id, done) => { /* Unity IAP xaridi, natijada don
 StoreService.PriceHandler = id => "$1.99";
 ```
 Release'dan oldin: AdMob ilova ID'si va reklama birligi, Play Console'da `unlock_world_N` mahsulotlari, maxfiylik siyosati va Data Safety formasi kerak.
+
+## Dizayn: yorqin multfilm uslubi
+- Hamma sprite'lar to'q konturli (`tools/gen_cartoon.py`, personajlar `tools/gen_characters.py`). Tugma va panellar oq, pastki qirrasi soyali; rang tint orqali beriladi.
+- Har dunyo o'z ranglarida: osmon gradienti, ikki qatlam tepalik va bulutlar sekin siljiydi (`ParallaxLayer`, `SkyBackdrop`). Zavod dunyosida orqada tishli g'ildiraklar ham bor.
+- Menyu va personaj tanlash ekranlarida ham osmon, bulut va tepalik fonlari bor.
+- Shrift hozircha Unity'ning standart shrifti. Yumaloq shrift (masalan, Fredoka) kerak bo'lsa .ttf faylini `Assets/Sakrovchilar/Fonts` ga qo'yib, builder'dagi `NewText` ga ulaymiz.
+- Eski sahnalarni yangilash: **Sakrovchilar > 1. Hammasini yaratish**.

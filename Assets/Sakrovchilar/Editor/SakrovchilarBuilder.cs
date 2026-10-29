@@ -24,17 +24,17 @@ public static class SakrovchilarBuilder
     public const string Level1ScenePath = SceneDir + "Level1.unity";
 
     // ---------- Ranglar (dizayndan) ----------
-    static readonly Color BgColor = Hex("1B2540");
-    static readonly Color BodyColor = Hex("2C3A5C");
+    static readonly Color BgColor = Hex("DDF0FF");
+    static readonly Color BodyColor = Hex("FFFFFF");
     static readonly Color TealColor = Hex("6FD3C0");
-    static readonly Color DialogColor = Hex("2C3A5C");
+    static readonly Color DialogColor = Hex("FFFFFF");
     static readonly Color OrangeColor = Hex("FF8A3D");
     static readonly Color YellowColor = Hex("FFC93C");
-    static readonly Color LightText = Hex("EAF0FF");
-    static readonly Color MutedText = Hex("9FB1DA");
-    static readonly Color DarkText = Hex("14203D");
-    static readonly Color PanelColor = new Color(10f / 255f, 16f / 255f, 34f / 255f, 0.55f);
-    static readonly Color ButtonDark = new Color(10f / 255f, 16f / 255f, 34f / 255f, 0.45f);
+    static readonly Color LightText = Hex("2B2340");
+    static readonly Color MutedText = Hex("6B7494");
+    static readonly Color DarkText = Hex("2B2340");
+    static readonly Color PanelColor = Color.white;
+    static readonly Color ButtonDark = Color.white;
 
     // ---------- Sprite sozlamalari ----------
     struct SpriteSpec
@@ -66,6 +66,9 @@ public static class SakrovchilarBuilder
         new SpriteSpec("tile_body", 64, 0),
         new SpriteSpec("tile_top", 64, 0),
         new SpriteSpec("gear", 64, 0),
+        new SpriteSpec("cloud", 64, 0),
+        new SpriteSpec("hill", 32, 0),
+        new SpriteSpec("sky", 64, 0),
         new SpriteSpec("ui_round", 100, 24),
         new SpriteSpec("ui_circle", 100, 0),
         new SpriteSpec("icon_chevron", 100, 0),
@@ -367,7 +370,9 @@ public static class SakrovchilarBuilder
         follow.minPos = new Vector2(d.boundsMin.x, d.boundsMin.y);
         follow.maxPos = new Vector2(d.boundsMax.x, d.boundsMax.y);
 
-        // ----- Orqa fon -----
+        // ----- Orqa fon: osmon, tepaliklar, bulutlar -----
+        MakeScenery(root, camGo.transform, d, bg);
+
         if (d.gears != null)
             foreach (var g in d.gears)
                 MakeGear(root, new Vector3(g.x, g.y, 0f), g.scale, g.speed, gearC);
@@ -519,6 +524,114 @@ public static class SakrovchilarBuilder
         sh.bulletSprite = S("bullet");
         sh.interval = e.interval;
         sh.bulletSpeed = e.speed;
+    }
+
+    /// <summary>Menyu fonlari: osmon gradienti, bulutlar va ikki qatlam tepalik (UI Image'lar).</summary>
+    static void AddMenuScenery(Transform ui)
+    {
+        var sky = NewImage(ui, "Sky", S("sky"), Hex("8CCBFF"), false);
+        Stretch(sky);
+
+        var c1 = NewImage(ui, "Cloud1", S("cloud"), new Color(1f, 1f, 1f, 0.92f), false);
+        Place(c1, TL, TL, new Vector2(70f, -70f), new Vector2(190f, 95f));
+        var c2 = NewImage(ui, "Cloud2", S("cloud"), new Color(1f, 1f, 1f, 0.85f), false);
+        Place(c2, TC, TC, new Vector2(120f, -150f), new Vector2(150f, 75f));
+        var c3 = NewImage(ui, "Cloud3", S("cloud"), new Color(1f, 1f, 1f, 0.9f), false);
+        Place(c3, TR, TR, new Vector2(-70f, -110f), new Vector2(170f, 85f));
+
+        var far = NewImage(ui, "HillsFar", S("hill"), Hex("B9E8B0"), false);
+        far.rectTransform.anchorMin = new Vector2(0f, 0f);
+        far.rectTransform.anchorMax = new Vector2(1f, 0f);
+        far.rectTransform.pivot = new Vector2(0.5f, 0f);
+        far.rectTransform.anchoredPosition = new Vector2(0f, 0f);
+        far.rectTransform.sizeDelta = new Vector2(0f, 230f);
+
+        var near = NewImage(ui, "HillsNear", S("hill"), Hex("74D68E"), false);
+        near.rectTransform.anchorMin = new Vector2(0f, 0f);
+        near.rectTransform.anchorMax = new Vector2(1f, 0f);
+        near.rectTransform.pivot = new Vector2(0.5f, 0f);
+        near.rectTransform.anchoredPosition = new Vector2(0f, -20f);
+        near.rectTransform.sizeDelta = new Vector2(0f, 170f);
+    }
+
+    static Color HexOr(string hex, Color fallback)
+    {
+        return string.IsNullOrEmpty(hex) ? fallback : Hex(hex);
+    }
+
+    /// <summary>Yorqin multfilm orqa foni: osmon gradienti + 2 qatlam tepalik + bulutlar (parallaks).</summary>
+    static void MakeScenery(Transform root, Transform camTr, LevelData d, Color horizon)
+    {
+        Color skyTop = HexOr(d.skyTop, horizon);
+        Color hillFar = HexOr(d.hillFar, Color.Lerp(horizon, Color.white, 0.2f));
+        Color hillNear = HexOr(d.hillNear, Color.Lerp(horizon, Color.black, 0.1f));
+
+        // Osmon gradienti (kameraning bolasi)
+        var sky = new GameObject("Sky");
+        sky.transform.SetParent(camTr, false);
+        var skySr = sky.AddComponent<SpriteRenderer>();
+        skySr.sprite = S("sky");
+        skySr.color = skyTop;
+        skySr.sortingOrder = -100;
+        sky.AddComponent<SkyBackdrop>();
+
+        float hw = 13f;                       // eng keng ekranni ham qoplash uchun
+        float halfW = 8.9f;
+        float cmin = d.boundsMin.x + halfW;
+        float cmax = d.boundsMax.x - halfW;
+        if (cmin > cmax) { float mid = (cmin + cmax) * 0.5f; cmin = mid; cmax = mid; }
+        float cam0y = Mathf.Clamp(d.spawn.y + 1.5f, d.boundsMin.y + 5f, Mathf.Max(d.boundsMin.y + 5f, d.boundsMax.y - 5f));
+
+        var layers = new GameObject("Backdrop").transform;
+        layers.SetParent(root, false);
+
+        // Tepaliklar: (qatlam nomi, rang, factor, tartib, kattalik, pastki y)
+        AddHillLayer(layers, "HillsFar", hillFar, 0.25f, 0.45f, -90, 1.3f, cam0y - 6.8f, cmin, cmax, hw);
+        AddHillLayer(layers, "HillsNear", hillNear, 0.5f, 0.6f, -80, 0.95f, cam0y - 7.6f, cmin, cmax, hw);
+
+        // Bulutlar
+        var rnd = new System.Random(d.number * 7919);
+        float f = 0.12f;
+        float lo = cmin - hw;
+        float hi = cmin + (cmax - cmin) * (1f - f) + hw;
+        for (float x = lo; x < hi; x += 11f + (float)rnd.NextDouble() * 8f)
+        {
+            var c = new GameObject("Cloud");
+            c.transform.SetParent(layers, false);
+            float sc = 1.1f + (float)rnd.NextDouble() * 1.2f;
+            c.transform.position = new Vector3(x, cam0y + 0.8f + (float)rnd.NextDouble() * 3.8f, 0f);
+            c.transform.localScale = new Vector3(sc, sc, 1f);
+            var sr = c.AddComponent<SpriteRenderer>();
+            sr.sprite = S("cloud");
+            sr.color = new Color(1f, 1f, 1f, 0.92f);
+            sr.sortingOrder = -95;
+            var p = c.AddComponent<ParallaxLayer>();
+            p.factorX = f;
+            p.factorY = 0.2f;
+        }
+    }
+
+    static void AddHillLayer(Transform parent, string name, Color color, float fx, float fy, int order,
+                             float scale, float bottomY, float cmin, float cmax, float hw)
+    {
+        float tileW = 16f * scale;           // hill.png: 512 px / 32 ppu = 16 birlik
+        float lo = cmin - hw - tileW;
+        float hi = cmin + (cmax - cmin) * (1f - fx) + hw + tileW;
+        for (float x = lo; x < hi; x += tileW)
+        {
+            var h = new GameObject(name);
+            h.transform.SetParent(parent, false);
+            h.transform.localScale = new Vector3(scale, scale, 1f);
+            // sprite markazi pivot: pastki chegarani bottomY ga qo'yamiz
+            h.transform.position = new Vector3(x + tileW * 0.5f, bottomY + 4f * scale, 0f);
+            var sr = h.AddComponent<SpriteRenderer>();
+            sr.sprite = S("hill");
+            sr.color = color;
+            sr.sortingOrder = order;
+            var p = h.AddComponent<ParallaxLayer>();
+            p.factorX = fx;
+            p.factorY = fy;
+        }
     }
 
     static void MakeGear(Transform parent, Vector3 pos, float scale, float speed, Color color)
@@ -729,7 +842,7 @@ public static class SakrovchilarBuilder
         var starImages = new Image[3];
         for (int i = 0; i < 3; i++)
         {
-            starImages[i] = NewImage(panel.transform, "Star" + (i + 1), S("icon_star"), new Color(1f, 1f, 1f, 0.18f), false);
+            starImages[i] = NewImage(panel.transform, "Star" + (i + 1), S("icon_star"), new Color(0.843f, 0.863f, 0.922f, 1f), false);
             PlaceTop(starImages[i], starX[i], starY[i], starSize[i], starSize[i]);
         }
 
@@ -753,11 +866,11 @@ public static class SakrovchilarBuilder
         Place(nextIcon, Mid, Mid, new Vector2(50f, 0f), new Vector2(22f, 22f));
         UnityEventTools.AddPersistentListener(nextBtn.onClick, gm.NextLevel);
 
-        var rewardBtn = NewButton(panel.transform, "RewardButton", S("ui_round"), new Color(TealColor.r, TealColor.g, TealColor.b, 0.18f), null, Color.white, 0f);
+        var rewardBtn = NewButton(panel.transform, "RewardButton", S("ui_round"), TealColor, null, Color.white, 0f);
         PlaceTop(rewardBtn, 0f, -290f, 330f, 44f);
-        var rewardIcon = NewImage(rewardBtn.transform, "Icon", S("icon_play"), TealColor, false);
+        var rewardIcon = NewImage(rewardBtn.transform, "Icon", S("icon_play"), DarkText, false);
         Place(rewardIcon, Mid, Mid, new Vector2(-148f, 0f), new Vector2(16f, 16f));
-        var rewardText = NewText(rewardBtn.transform, "Text", "Tangalarni 2 barobar qilish (reklama)", 16, TealColor, TextAnchor.MiddleCenter);
+        var rewardText = NewText(rewardBtn.transform, "Text", "Tangalarni 2 barobar qilish (reklama)", 16, DarkText, TextAnchor.MiddleCenter);
         Place(rewardText, Mid, Mid, new Vector2(8f, 0f), new Vector2(290f, 44f));
         UnityEventTools.AddPersistentListener(rewardBtn.onClick, gm.OnRewardedDoubleCoins);
 
@@ -819,6 +932,7 @@ public static class SakrovchilarBuilder
         var canvas = NewCanvas();
         NewEventSystem();
         Transform ui = canvas.transform;
+        AddMenuScenery(ui);
 
         var title = NewText(ui, "Title", "Zavod", 32, LightText, TextAnchor.MiddleLeft);
         Place(title, TL, TL, new Vector2(48f, -20f), new Vector2(240f, 44f));
@@ -945,6 +1059,7 @@ public static class SakrovchilarBuilder
         var canvas = NewCanvas();
         NewEventSystem();
         Transform ui = canvas.transform;
+        AddMenuScenery(ui);
 
         var title = NewText(ui, "Title", GameInfo.Title, 44, LightText, TextAnchor.MiddleCenter);
         PlaceTop(title, 0f, -36f, 600f, 56f);
@@ -1013,7 +1128,7 @@ public static class SakrovchilarBuilder
         float[] xs = { -28f, 0f, 28f };
         for (int i = 0; i < 3; i++)
         {
-            stars[i] = NewImage(bg.transform, "Star" + (i + 1), S("icon_star"), new Color(1f, 1f, 1f, 0.18f), false);
+            stars[i] = NewImage(bg.transform, "Star" + (i + 1), S("icon_star"), new Color(0.843f, 0.863f, 0.922f, 1f), false);
             Place(stars[i], Mid, Mid, new Vector2(xs[i], -36f), new Vector2(24f, 24f));
         }
 

@@ -55,6 +55,7 @@ public class LevelData
     public int worldFirst;
     public float par;
     public string bg, body, top, gear, moverBody, moverTop;
+    public string skyTop, hillFar, hillNear;
     public LevelPoint spawn;
     public LevelPoint boundsMin;
     public LevelPoint boundsMax;

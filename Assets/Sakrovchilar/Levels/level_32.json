@@ -3,11 +3,14 @@
  "world": "Muz",
  "worldFirst": 31,
  "par": 48,
- "bg": "16304A",
- "body": "3B6286",
- "top": "BFEFFF",
- "gear": "1F4263",
- "moverBody": "4F7A9E",
+ "bg": "E8F8FF",
+ "skyTop": "9EDBFF",
+ "hillFar": "CDEBFA",
+ "hillNear": "A9D8F2",
+ "body": "8FB7D9",
+ "top": "EAFBFF",
+ "gear": "D5EEFB",
+ "moverBody": "6F9AC4",
  "moverTop": "FFB84D",
  "spawn": {
   "x": -6.0,
@@ -505,80 +508,7 @@
    "speed": 2.0
   }
  ],
- "gears": [
-  {
-   "x": -3.0,
-   "y": 2.43,
-   "scale": 1.25,
-   "speed": 9.4
-  },
-  {
-   "x": 8.95,
-   "y": 7.46,
-   "scale": 1.87,
-   "speed": -10.2
-  },
-  {
-   "x": 22.25,
-   "y": 1.56,
-   "scale": 1.29,
-   "speed": 6.2
-  },
-  {
-   "x": 33.5,
-   "y": 2.9,
-   "scale": 1.3,
-   "speed": 8.2
-  },
-  {
-   "x": 44.01,
-   "y": 1.0,
-   "scale": 1.01,
-   "speed": 8.6
-  },
-  {
-   "x": 57.4,
-   "y": 5.88,
-   "scale": 0.91,
-   "speed": -10.3
-  },
-  {
-   "x": 66.47,
-   "y": 5.23,
-   "scale": 1.55,
-   "speed": 7.8
-  },
-  {
-   "x": 75.72,
-   "y": 5.23,
-   "scale": 1.65,
-   "speed": -5.0
-  },
-  {
-   "x": 88.68,
-   "y": 6.15,
-   "scale": 1.01,
-   "speed": 7.7
-  },
-  {
-   "x": 99.84,
-   "y": 7.23,
-   "scale": 1.41,
-   "speed": 12.0
-  },
-  {
-   "x": 113.47,
-   "y": 7.34,
-   "scale": 1.5,
-   "speed": -5.0
-  },
-  {
-   "x": 126.2,
-   "y": 3.08,
-   "scale": 0.94,
-   "speed": -6.6
-  }
- ],
+ "gears": [],
  "enemies": [
   {
    "x": 120.5,

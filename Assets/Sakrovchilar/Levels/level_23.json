@@ -3,11 +3,14 @@
  "world": "Cho'l",
  "worldFirst": 21,
  "par": 35,
- "bg": "3A2A1A",
- "body": "6B4A2B",
- "top": "F2C46B",
- "gear": "4A3822",
- "moverBody": "7A5A3A",
+ "bg": "FFF0C8",
+ "skyTop": "FFC978",
+ "hillFar": "F6D08A",
+ "hillNear": "E8B565",
+ "body": "D9A25C",
+ "top": "F2D27A",
+ "gear": "F0D9A0",
+ "moverBody": "B9803F",
  "moverTop": "6FD3C0",
  "spawn": {
   "x": -6.0,
@@ -325,50 +328,7 @@
    "speed": 2.0
   }
  ],
- "gears": [
-  {
-   "x": -3.0,
-   "y": 4.52,
-   "scale": 1.34,
-   "speed": 9.9
-  },
-  {
-   "x": 10.68,
-   "y": 2.58,
-   "scale": 1.79,
-   "speed": 8.7
-  },
-  {
-   "x": 21.11,
-   "y": 2.31,
-   "scale": 0.95,
-   "speed": -7.4
-  },
-  {
-   "x": 32.13,
-   "y": 5.89,
-   "scale": 1.33,
-   "speed": 10.0
-  },
-  {
-   "x": 45.48,
-   "y": 2.92,
-   "scale": 1.22,
-   "speed": 11.4
-  },
-  {
-   "x": 59.04,
-   "y": 2.89,
-   "scale": 1.62,
-   "speed": 7.1
-  },
-  {
-   "x": 72.53,
-   "y": 3.35,
-   "scale": 1.02,
-   "speed": 7.3
-  }
- ],
+ "gears": [],
  "enemies": [
   {
    "x": 31.0,
