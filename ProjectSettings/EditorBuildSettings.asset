@@ -6,70 +6,317 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Menu.unity
-    guid: 5de0862e513e2e8468d8d87cd5ed7739
+    path: Assets/Sakrovchilar/Scenes/CharacterSelect.unity
+    guid: 0c96482b4da747a4c91f0a54828c9e1f
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level1.unity
-    guid: fc5debfe81886bc4fa80f72ed6d98415
+    path: Assets/Sakrovchilar/Scenes/Menu.unity
+    guid: 1352ee2778e114d42a5ac241591bdd9b
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level2.unity
-    guid: aa143a4f9edd413418386da1be51c3c3
+    path: Assets/Sakrovchilar/Scenes/Level1.unity
+    guid: f311ca3fde8037842a1bbdaa9026ef47
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level3.unity
-    guid: 90115a80b7605124a866d80cf8bc45f8
+    path: Assets/Sakrovchilar/Scenes/Level2.unity
+    guid: a07daa2bce8fa0443ac9adcfa47b9153
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level4.unity
-    guid: 5467833d5acac8d439d57edfee10def2
+    path: Assets/Sakrovchilar/Scenes/Level3.unity
+    guid: 4f48ffec1f7a19c4398650abf79fc29a
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level5.unity
-    guid: 75adf18b8fbd2af4da60b36862537d26
+    path: Assets/Sakrovchilar/Scenes/Level4.unity
+    guid: f7ac9c2de4f167f45b85f2f8018d6901
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level6.unity
-    guid: ca2f598cde74bed4d82acca69c306dfc
+    path: Assets/Sakrovchilar/Scenes/Level5.unity
+    guid: e31a31e038460744f8795e893bcb8d59
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level7.unity
-    guid: 790b66d0f3e875944a501b9a003b70d9
+    path: Assets/Sakrovchilar/Scenes/Level6.unity
+    guid: 2198f1670d8e4aa43a49a78e3ac57555
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level8.unity
-    guid: b944688d8c82cc045ad40b8ec4c731b5
+    path: Assets/Sakrovchilar/Scenes/Level7.unity
+    guid: 8fe9b8893642ae840a6894fd1445085a
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level9.unity
-    guid: db8fd9b3325303940b31c25770e15dea
+    path: Assets/Sakrovchilar/Scenes/Level8.unity
+    guid: b6fede9c8f9dbc24fab05565da0309e8
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level10.unity
-    guid: eaf2b2ef2a4a95d46a9699928fb2d863
+    path: Assets/Sakrovchilar/Scenes/Level9.unity
+    guid: 0464d9376ef010a40b39cb9023c921f3
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level11.unity
-    guid: bb2da6aadee28274fb2c83da598801af
+    path: Assets/Sakrovchilar/Scenes/Level10.unity
+    guid: f3137a84d12b53a44a023bf68bc26233
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level12.unity
-    guid: 9ae211fd533720b4aba6aaca36402776
+    path: Assets/Sakrovchilar/Scenes/Level11.unity
+    guid: 09483b269c1ae624dbdd52b1b08875ca
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level13.unity
-    guid: 3c4bb828303be0a4696f5cf72f4b8671
+    path: Assets/Sakrovchilar/Scenes/Level12.unity
+    guid: 20d8b6b878210904d8b0d96276d35687
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level14.unity
-    guid: e27d3ad296bf6f64eaf684e878afd37b
+    path: Assets/Sakrovchilar/Scenes/Level13.unity
+    guid: 16c868482b39b6d47b2707e5db73a0db
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level15.unity
-    guid: 57548040c3cb3634d98d2f81555d6fe8
+    path: Assets/Sakrovchilar/Scenes/Level14.unity
+    guid: 24bf7d3a0a2bafd4a80aa753de6fcb82
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level16.unity
-    guid: b1e901e01e034c94a82e36684ae7676d
+    path: Assets/Sakrovchilar/Scenes/Level15.unity
+    guid: 5fae4567d37c947439c9a96bdb20217c
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level17.unity
-    guid: 121c4594a845b0e46a0722bd47f6e9ce
+    path: Assets/Sakrovchilar/Scenes/Level16.unity
+    guid: 2715c5f25fcd2854ea42a67a52d53d11
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level18.unity
-    guid: 6aff152dc27edd147a137a0684e117e0
+    path: Assets/Sakrovchilar/Scenes/Level17.unity
+    guid: 89d3e0fce05d05042bd8fc9a2c780fbd
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level19.unity
-    guid: b10aafcecf3ed5a46a80794d1cb7deb3
+    path: Assets/Sakrovchilar/Scenes/Level18.unity
+    guid: 8d0946d1d4e082a44b5b4dc98e5b30b7
   - enabled: 1
-    path: Assets/KichikRobot/Scenes/Level20.unity
-    guid: f3c8616753d816a458eb9f94ce039b17
+    path: Assets/Sakrovchilar/Scenes/Level19.unity
+    guid: 2f6bf7c1ac728234a8ee271cca2b82ca
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level20.unity
+    guid: b3d41055906d6a244be723527cc5692f
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level21.unity
+    guid: 5d2ba2a86a112a843bbd4312be063c70
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level22.unity
+    guid: 76d0a56d6605307488b9b7512e9130c8
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level23.unity
+    guid: ce138b4c866f8b84c8e1a12f2444dde6
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level24.unity
+    guid: c72e32babe9048a44b77f5c2448bf6bf
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level25.unity
+    guid: bb79256ae794c6d4685c469731d3a111
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level26.unity
+    guid: f8df74d83a03bc840b3dd403cd5bdbad
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level27.unity
+    guid: 067efd212d2d5b54481452360c717136
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level28.unity
+    guid: 3ed3c61416d695b4795348ea6c648e04
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level29.unity
+    guid: 0985ef14edc18de49a9d184893a29603
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level30.unity
+    guid: 4f480af0a3d10eb479df246fe9a4fb73
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level31.unity
+    guid: d46e5912c9aa5584fb4f2494bb42db7d
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level32.unity
+    guid: 53c26dfc732da464dbdccefcf4122273
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level33.unity
+    guid: 6742eba5d41167b4cab4c39bef2254c8
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level34.unity
+    guid: b5e05f651038aa34c84eb16f2592a4f7
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level35.unity
+    guid: 180cdea3ada40114596d38f6894e7bf0
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level36.unity
+    guid: 6302348ed4fabb9438cd186cec97f45e
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level37.unity
+    guid: 910f8a76140cd8b4fa6c95160f542f65
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level38.unity
+    guid: 1267763112e0e3046baf4c1327889c9a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level39.unity
+    guid: b788456c4dec38b4083125542e0893d7
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level40.unity
+    guid: a3c8957d6270a3b448a1988220ec8c89
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level41.unity
+    guid: cb176b5195a0e3546b6c17f4d50ef78e
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level42.unity
+    guid: beaeb61e7bc8567468a1e6125ebd599c
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level43.unity
+    guid: 4708d3992456be748bd86647a7c5b235
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level44.unity
+    guid: e1dc79e9bfdaf8c47a39acbfa09c0269
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level45.unity
+    guid: 1e1a361be9e960c4c9102aed741c647d
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level46.unity
+    guid: ffc0eda044e4fca4c8ce64f64084c3a0
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level47.unity
+    guid: f53c96780227dd34ab4d6ef311a59a13
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level48.unity
+    guid: 7bb201bce66d5a4499b7f0771d7e1a7c
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level49.unity
+    guid: c5c14aa1f4e2c354b830d084c433fa43
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level50.unity
+    guid: 9d23333ffabcbcb439c27e24ca0a7c47
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level51.unity
+    guid: ebd5d3f1701ba35448c3f3bddd0a7a4b
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level52.unity
+    guid: d0741b11f7a0e3948b4fa6b0e98226ba
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level53.unity
+    guid: 1aa5553bf9a1b1d4894abc0e83646d2a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level54.unity
+    guid: 18e8c11d101c4c6449d6a1e5ef89bb6e
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level55.unity
+    guid: 446dbddc74fb1e34e95d90cf60950218
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level56.unity
+    guid: fb0d7fe7e6849c647bac49fada73f3de
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level57.unity
+    guid: 00ec1a2a0f04a9a48855383a745b810a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level58.unity
+    guid: 28415ce2286a1e84f97c375a958660dc
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level59.unity
+    guid: a09fd4268f622ba4faaf66674a045d4b
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level60.unity
+    guid: 6e47dcaff782e6c46b909d8696fc30f7
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level61.unity
+    guid: e13e7104223d1174f9d36d39fd6f95e3
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level62.unity
+    guid: b0c87a2e27e41ce4c8cea49837e7e529
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level63.unity
+    guid: c4f6a23129c36504bb563fdeb1127bba
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level64.unity
+    guid: ccfc8d03e58a0154b9abc37969b42710
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level65.unity
+    guid: a3908b0b1d4b029428e2f0275b122651
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level66.unity
+    guid: d69e21e36aa1f3d4b854d9e1fc01a182
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level67.unity
+    guid: aa98878226a88fc4cbf76d2c82452376
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level68.unity
+    guid: 512f8af4076504a42b658d01bd51d652
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level69.unity
+    guid: 21a79fc363ed6824b812a0df9e43e224
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level70.unity
+    guid: ae3216dd8ebd28b4cba791d1073c67c4
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level71.unity
+    guid: 31458a7b48a46f44b8cd96d64ea1eae4
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level72.unity
+    guid: 4f91f8abe3e7a0f42ba2b2e624ed72d6
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level73.unity
+    guid: 5971e1f08403ecb4794601a1eaa12b48
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level74.unity
+    guid: c16a6ce0b64908d42b6a607adc108636
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level75.unity
+    guid: c9047bcaed50ad24fb3445db4bb93c7b
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level76.unity
+    guid: 69d36456a2ebaed48af45a593ba9ba70
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level77.unity
+    guid: 211a5da7eeb5ef347a2f869ed15b0c3c
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level78.unity
+    guid: 00f49d32a5173f34986b833797f8f92a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level79.unity
+    guid: 1bda089772cb8374da96b602707f207d
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level80.unity
+    guid: 0391c00e05fc1a94e9f7fe000c87530a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level81.unity
+    guid: ef31735e3862174409fd21cf5262c052
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level82.unity
+    guid: 3e4d7db18b25cb94f8adceb2bba62cff
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level83.unity
+    guid: be141785f21ddcd49bb495f93f360216
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level84.unity
+    guid: 784e4b711ed526346954175ca3566ef6
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level85.unity
+    guid: 50e5e50f3224a0b45b4e7c8602440298
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level86.unity
+    guid: d1401c54842bbc94da45a82c1933c83c
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level87.unity
+    guid: 8aff4e3c58995d4429cb27c8488457d7
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level88.unity
+    guid: e3918e245423add40b4eb50dc41b6cd6
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level89.unity
+    guid: b68c7113f74c3264fbc40617a485d89a
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level90.unity
+    guid: ca673a26b80ad484e87eb51c13fcff10
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level91.unity
+    guid: 59f06b7c8b816664bace7e2264ef7c18
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level92.unity
+    guid: 20c90ebd0ed3bce4f8d4020539f22fef
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level93.unity
+    guid: fcfd648a503aaba4eb96a7af759436d1
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level94.unity
+    guid: 55615e28025f2254696dc4fb61643d76
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level95.unity
+    guid: 4927ed7b0e80676448b6c85c93eff4b4
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level96.unity
+    guid: b11b5c3d919b380458027128ef6e404e
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level97.unity
+    guid: f3dfcf797b75261419fa4e6e9aef1843
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level98.unity
+    guid: c3e3c85851bb24646a2b2cf97003bd44
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level99.unity
+    guid: 7b01123b85f634b4ca8ac5164eda7625
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level100.unity
+    guid: f3a93caed508eda45b82bcb425d2654d
+  - enabled: 1
+    path: Assets/Sakrovchilar/Scenes/Level101.unity
+    guid: 1eeddf83ed46e1b43ad84bf511004d06
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
