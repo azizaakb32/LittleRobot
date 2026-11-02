@@ -57,7 +57,7 @@ public static class StoreService
             string p = PriceHandler(productId);
             if (!string.IsNullOrEmpty(p)) return p;
         }
-        return "Sotib olish";
+        return Localization.T("ui.store.buy");
     }
 
     public static void Purchase(string productId, Action<bool> done)

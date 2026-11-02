@@ -48,6 +48,20 @@ public class LevelShooter
 }
 
 [Serializable]
+public class LevelLadder
+{
+    public float x, y0, y1;
+    /// <summary>Tepaga chiqqanda qaysi tomonga sakraydi (+1 o'ng, -1 chap)</summary>
+    public int exitDir;
+}
+
+[Serializable]
+public class LevelShaft
+{
+    public float x0, x1, y0, y1;
+}
+
+[Serializable]
 public class LevelData
 {
     public int number;
@@ -68,4 +82,7 @@ public class LevelData
     public List<LevelGear> gears;
     public List<LevelEnemy> enemies;
     public List<LevelShooter> shooters;
+    public List<LevelLadder> ladders;
+    public List<LevelShaft> shafts;
+    public List<LevelPoint> checkpoints;
 }

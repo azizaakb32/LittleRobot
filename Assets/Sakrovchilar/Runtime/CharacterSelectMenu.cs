@@ -32,7 +32,7 @@ public class CharacterSelectMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         if (titleText != null) titleText.text = GameInfo.Title;
-        if (subtitleText != null) subtitleText.text = GameInfo.Subtitle;
+        RefreshTexts();
 
         int count = Mathf.Min(cards != null ? cards.Length : 0, CharacterCatalog.All.Length);
         runFrames = new Sprite[count][];
@@ -47,8 +47,7 @@ public class CharacterSelectMenu : MonoBehaviour
                 runFrames[i][f] = CharacterCatalog.Load(info, CharacterCatalog.RunFramePrefix + f);
 
             var card = cards[i];
-            if (card.nameText != null) card.nameText.text = info.displayName;
-            if (card.highlight != null) card.highlight.color = info.accent;
+                        if (card.highlight != null) card.highlight.color = info.accent;
             if (card.portrait != null && idleFrames[i] != null) card.portrait.sprite = idleFrames[i];
 
             int index = i;
@@ -56,6 +55,19 @@ public class CharacterSelectMenu : MonoBehaviour
         }
 
         Select(Mathf.Clamp(CharacterCatalog.SelectedIndex, 0, Mathf.Max(0, count - 1)));
+    }
+
+    void OnEnable() { Localization.Changed += RefreshTexts; }
+    void OnDisable() { Localization.Changed -= RefreshTexts; }
+
+    void RefreshTexts()
+    {
+        if (titleText != null) titleText.text = GameInfo.Title;
+        if (subtitleText != null) subtitleText.text = Localization.T("ui.chooseHero");
+        if (cards == null) return;
+        int count = Mathf.Min(cards.Length, CharacterCatalog.All.Length);
+        for (int i = 0; i < count; i++)
+            if (cards[i] != null && cards[i].nameText != null) cards[i].nameText.text = CharacterCatalog.All[i].Name;
     }
 
     void Update()

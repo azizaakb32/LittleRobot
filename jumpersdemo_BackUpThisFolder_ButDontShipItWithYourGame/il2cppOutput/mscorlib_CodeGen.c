@@ -7593,6 +7593,7 @@ extern void CultureInfo_get_Name_mA9A5A43462A6E609D1DA957F971CAFE7B989D433 (void
 extern void CultureInfo_get_Calendar_mBF3B6ABCC88ABDD7D953A48087512B66E98B469A (void);
 extern void CultureInfo_get_Parent_m5E48CC5F1260FC6AFC5DECE810697873B9808316 (void);
 extern void CultureInfo_get_TextInfo_m9986C9F311B05DDF0FFD45D3BB48305FDCD6B7DF (void);
+extern void CultureInfo_get_TwoLetterISOLanguageName_m7A6E0DDB65158F421C5574E1ACE2F517BCDAC5E5 (void);
 extern void CultureInfo_Clone_m7D36E181C5E6D9DBA5ED7A383525D8EE2474230B (void);
 extern void CultureInfo_Equals_mB5B2715295F60DEE382163C1078E73A3FDF48197 (void);
 extern void CultureInfo_GetTextInfoData_m0507D49638799E09D2C92D0D167E4F4451A9F03B (void);
@@ -8417,7 +8418,7 @@ extern void CStreamWriter_Write_m9074BCE272DB3F2C8CBC3C1F99C12B0A3361ED31 (void)
 extern void CStreamWriter_WriteLine_mA01BC2C9A80D4B4A660C3480FAF8B5F16D77B940 (void);
 extern void U3CPrivateImplementationDetailsU3E_ComputeStringHash_m52370B9D7DEAF095B34C6AE27338067A3A1CF886 (void);
 extern void ThrowStub_ThrowNotSupportedException_m02C318CA8F5812C025CBEDEA07A5DE5D0FDBB25F (void);
-static Il2CppMethodPointer s_methodPointers[9699] = 
+static Il2CppMethodPointer s_methodPointers[9700] = 
 {
 	Interop_GetExceptionForIoErrno_m701F71EF26E8E84C4DB2278B54D7F89BD522C7E7,
 	Interop_GetIOException_m4AEFBBA1E1D56F9C4D69CDD0626267AB8CFC9943,
@@ -16728,6 +16729,7 @@ static Il2CppMethodPointer s_methodPointers[9699] =
 	CultureInfo_get_Calendar_mBF3B6ABCC88ABDD7D953A48087512B66E98B469A,
 	CultureInfo_get_Parent_m5E48CC5F1260FC6AFC5DECE810697873B9808316,
 	CultureInfo_get_TextInfo_m9986C9F311B05DDF0FFD45D3BB48305FDCD6B7DF,
+	CultureInfo_get_TwoLetterISOLanguageName_m7A6E0DDB65158F421C5574E1ACE2F517BCDAC5E5,
 	CultureInfo_Clone_m7D36E181C5E6D9DBA5ED7A383525D8EE2474230B,
 	CultureInfo_Equals_mB5B2715295F60DEE382163C1078E73A3FDF48197,
 	CultureInfo_GetTextInfoData_m0507D49638799E09D2C92D0D167E4F4451A9F03B,
@@ -19013,13 +19015,13 @@ static Il2CppTokenAdjustorThunkPair s_adjustorThunks[444] =
 static const Il2CppTokenIndexMethodTuple s_reversePInvokeIndices[2] = 
 {
 	{ 0x06000F16, 35,  (void**)&OSSpecificSynchronizationContext_InvocationEntry_mF93C3CF6DBEC86E377576D840CAF517CB6E4D7E3_RuntimeMethod_var, 0 },
-	{ 0x060020A1, 4,  (void**)&CultureInfo_OnCultureInfoChangedInAppX_m407BCFC1029A4485B7B063BC2F3601968C3BE577_RuntimeMethod_var, 0 },
+	{ 0x060020A2, 4,  (void**)&CultureInfo_OnCultureInfoChangedInAppX_m407BCFC1029A4485B7B063BC2F3601968C3BE577_RuntimeMethod_var, 0 },
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_mscorlib_CodeGenModule;
 const Il2CppCodeGenModule g_mscorlib_CodeGenModule = 
 {
 	"mscorlib.dll",
-	9699,
+	9700,
 	s_methodPointers,
 	444,
 	s_adjustorThunks,

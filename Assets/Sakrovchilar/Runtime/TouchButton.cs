@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class TouchButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
-    public enum Kind { Left, Right, Jump }
+    public enum Kind { Left, Right, Jump, Up, Down }
     public Kind kind = Kind.Left;
 
     bool down;
@@ -25,6 +25,8 @@ public class TouchButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             case Kind.Left: MobileInput.SetLeft(value); break;
             case Kind.Right: MobileInput.SetRight(value); break;
+            case Kind.Up: MobileInput.SetUp(value); break;
+            case Kind.Down: MobileInput.SetDown(value); break;
             case Kind.Jump:
                 if (value) MobileInput.JumpDown(); else MobileInput.JumpUp();
                 break;

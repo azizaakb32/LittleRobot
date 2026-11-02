@@ -12,11 +12,13 @@ using UnityEngine.InputSystem;
 public class MobileInput : MonoBehaviour
 {
     public static float Horizontal { get; private set; }
+    /// <summary>Yuqoriga +1, pastga -1 (narvon va platformadan tushish uchun).</summary>
+    public static float Vertical { get; private set; }
     public static bool JumpPressed { get; private set; }   // shu kadrda bosildi
     public static bool JumpReleased { get; private set; }  // shu kadrda qo'yib yuborildi
 
     static MobileInput instance;
-    static bool leftHeld, rightHeld;
+    static bool leftHeld, rightHeld, upHeld, downHeld;
     static bool jumpDownFlag, jumpUpFlag;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -39,6 +41,8 @@ public class MobileInput : MonoBehaviour
     // --- UI tugmalari (TouchButton) chaqiradi ---
     public static void SetLeft(bool held) { leftHeld = held; }
     public static void SetRight(bool held) { rightHeld = held; }
+    public static void SetUp(bool held) { upHeld = held; }
+    public static void SetDown(bool held) { downHeld = held; }
     public static void JumpDown() { jumpDownFlag = true; }
     public static void JumpUp() { jumpUpFlag = true; }
 
@@ -46,6 +50,9 @@ public class MobileInput : MonoBehaviour
     {
         leftHeld = false;
         rightHeld = false;
+        upHeld = false;
+        downHeld = false;
+        Vertical = 0f;
         jumpDownFlag = false;
         jumpUpFlag = false;
         Horizontal = 0f;
@@ -56,6 +63,7 @@ public class MobileInput : MonoBehaviour
     void Update()
     {
         float keyboard = 0f;
+        float keyV = 0f;
         bool keyJumpDown = false;
         bool keyJumpUp = false;
 
@@ -65,17 +73,23 @@ public class MobileInput : MonoBehaviour
         {
             if (kb.leftArrowKey.isPressed || kb.aKey.isPressed) keyboard -= 1f;
             if (kb.rightArrowKey.isPressed || kb.dKey.isPressed) keyboard += 1f;
-            keyJumpDown = kb.spaceKey.wasPressedThisFrame || kb.upArrowKey.wasPressedThisFrame || kb.wKey.wasPressedThisFrame;
-            keyJumpUp = kb.spaceKey.wasReleasedThisFrame || kb.upArrowKey.wasReleasedThisFrame || kb.wKey.wasReleasedThisFrame;
+            if (kb.upArrowKey.isPressed || kb.wKey.isPressed) keyV += 1f;
+            if (kb.downArrowKey.isPressed || kb.sKey.isPressed) keyV -= 1f;
+            keyJumpDown = kb.spaceKey.wasPressedThisFrame;
+            keyJumpUp = kb.spaceKey.wasReleasedThisFrame;
         }
 #elif ENABLE_LEGACY_INPUT_MANAGER
         keyboard = Input.GetAxisRaw("Horizontal");
+        keyV = Input.GetAxisRaw("Vertical");
         keyJumpDown = Input.GetButtonDown("Jump");
         keyJumpUp = Input.GetButtonUp("Jump");
 #endif
 
         float touch = (rightHeld ? 1f : 0f) - (leftHeld ? 1f : 0f);
         Horizontal = Mathf.Abs(touch) > 0.01f ? touch : keyboard;
+
+        float touchV = (upHeld ? 1f : 0f) - (downHeld ? 1f : 0f);
+        Vertical = Mathf.Abs(touchV) > 0.01f ? touchV : keyV;
 
         JumpPressed = jumpDownFlag || keyJumpDown;
         JumpReleased = jumpUpFlag || keyJumpUp;

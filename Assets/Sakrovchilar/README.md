@@ -123,3 +123,19 @@ Release'dan oldin: AdMob ilova ID'si va reklama birligi, Play Console'da `unlock
 - Menyu va personaj tanlash ekranlarida ham osmon, bulut va tepalik fonlari bor.
 - Shrift hozircha Unity'ning standart shrifti. Yumaloq shrift (masalan, Fredoka) kerak bo'lsa .ttf faylini `Assets/Sakrovchilar/Fonts` ga qo'yib, builder'dagi `NewText` ga ulaymiz.
 - Eski sahnalarni yangilash: **Sakrovchilar > 1. Hammasini yaratish**.
+
+## Tillar (O'zbek, English, Русский)
+- Barcha matnlar `Runtime/Localization.cs` ichida: `Add("kalit", "o'zbekcha", "English", "Русский")`. Yangi matn yoki yangi til qo'shish shu yerda.
+- Til tugmasi (UZ / EN / RU) personaj tanlash ekranining yuqori o'ng burchagida va menyuda (yulduzlar yonida). Tanlov saqlanadi. Birinchi ishga tushganda telefon tiliga qarab tanlanadi: rus yoki o'zbek bo'lsa o'sha, qolganlarida ingliz.
+- Statik yozuvlar `LocalizedText` komponenti orqali, dinamik yozuvlar (daraja nomi, yulduzlar soni va h.k.) koddan `Localization.T(...)` bilan tarjima qilinadi.
+- Google Play'dagi ilova nomi, tavsifi va skrinshotlar tillarini Play Console > Store presence > Main store listing > Manage translations da alohida qo'shasiz.
+- Rus tilidagi kirill harflari Unity'ning standart shriftida ko'rinadi. Maxsus shrift qo'ysangiz, u kirill va o'zbek lotin harflarini (o', g') qo'llashini tekshiring.
+
+## Yangi harakatlar: tepaga chiqish va pastga tushish
+- **Narvon**: narvon yoniga kelib **Yuqoriga** (yoki **Pastga**) tugmasini bosing, ilashib ko'tarilasiz. Narvon tepasida o'zi sakrab chiqadi. Sakrash tugmasi narvondan sakratadi.
+- **Devordan sakrash**: ikki devor orasidagi shaxtada devorga tegib turib **Sakrash**ni bosing, qarama-qarshi devorga sakraysiz. Zig-zag qilib tepaga chiqiladi. Devorga qarab bosib tursangiz, sekin sirg'anadi.
+- **Platformadan tushish**: bir tomonlama platformalarda **Pastga + Sakrash** bilan teshib pastga tushasiz. Tikanlar bor, qayerga tushishni tanlang.
+- **Nazorat bayrog'i**: minora tepasidagi bayroqqa tegsangiz, o'lganingizda shu yerdan boshlaysiz.
+- Klaviatura: W/S yoki ↑/↓ narvon uchun, Space sakrash.
+- Darajalar tepaga ko'tarilib pastga tushadi; balandlik daraja raqami bilan oshadi (100-darajada ~26 birlik).
+- Yangi JSON maydonlari: `ladders`, `shafts`, `checkpoints`. Darajalarni `tools/gen_levels.py` yasaydi va har birini fizika bo'yicha tekshiradi.

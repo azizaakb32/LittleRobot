@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             var happy = CharacterCatalog.Load(CharacterCatalog.Selected, "happy");
             if (happy != null) winCharacterImage.sprite = happy;
         }
-        if (levelLabel != null) levelLabel.text = worldName + " · " + (levelNumber - worldFirstLevel + 1);
+        if (levelLabel != null) levelLabel.text = Localization.T("world." + WorldGate.WorldOf(levelNumber)) + " · " + (levelNumber - worldFirstLevel + 1);
         SetKeyVisual(false);
         UpdateUI();
     }
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
     void UpdateUI()
     {
         if (coinText != null) coinText.text = coins + " / " + totalCoins;
-        if (timerText != null) timerText.text = timer.ToString("0.0") + " s";
+        if (timerText != null) timerText.text = Localization.T("ui.timer", timer.ToString("0.0"));
     }
 
     void SetKeyVisual(bool has)
@@ -142,12 +142,12 @@ public class GameManager : MonoBehaviour
                 if (winStars[i] != null) winStars[i].color = i < stars ? starOn : starOff;
         }
         if (winInfoText != null)
-            winInfoText.text = "Tangalar: " + coins + "/" + totalCoins + "\nVaqt: " + timer.ToString("0.0") + " s";
+            winInfoText.text = Localization.T("ui.win.info", coins, totalCoins, timer.ToString("0.0"));
         // Dunyoning oxirgi darajasi: keyingi dunyo uchun yulduz holatini ko'rsatamiz
         if (winInfoText != null && levelNumber % GameInfo.LevelsPerWorld == 0)
         {
             int next = WorldGate.WorldOf(levelNumber) + 1;
-            winInfoText.text += "\nKeyingi dunyo: " + WorldGate.CurrentStars(next) + "/" + WorldGate.Required + " yulduz";
+            winInfoText.text += "\n" + Localization.T("ui.win.nextWorld", WorldGate.CurrentStars(next), WorldGate.Required);
         }
     }
 

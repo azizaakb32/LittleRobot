@@ -321,6 +321,7 @@ UnityEngine.Application::get_unityVersionVer
 UnityEngine.Application::OpenURL_Injected
 UnityEngine.Application::get_streamingAssetsPath_Injected
 UnityEngine.Application::get_platform
+UnityEngine.Application::get_systemLanguage
 UnityEngine.AssetBundle::LoadAsset_Internal_Injected
 UnityEngine.AsyncOperation::InternalDestroy
 UnityEngine.AsyncOperation::InternalSetManagedObject
@@ -442,10 +443,13 @@ UnityEngine.CanvasRenderer::set_cull_Injected
 UnityEngine.CanvasRenderer::set_hasPopInstruction_Injected
 UnityEngine.CanvasRenderer::set_materialCount_Injected
 UnityEngine.CanvasRenderer::set_popMaterialCount_Injected
+UnityEngine.CircleCollider2D::set_radius_Injected
 UnityEngine.Collider::get_enabled_Injected
 UnityEngine.Collider::ClosestPoint_Injected
 UnityEngine.Collider::set_isTrigger_Injected
+UnityEngine.Collider2D::get_isTrigger_Injected
 UnityEngine.Collider2D::get_bounds_Injected
+UnityEngine.Collider2D::set_isTrigger_Injected
 UnityEngine.ColorGamutUtility::GetColorPrimaries
 UnityEngine.ColorGamutUtility::GetTransferFunction
 UnityEngine.ColorGamutUtility::GetWhitePoint
@@ -993,6 +997,9 @@ UnityEngine.Physics::SendOnCollisionExit_Injected
 UnityEngine.Physics::SendOnCollisionStay_Injected
 UnityEngine.Physics2D::get_queriesHitTriggers
 UnityEngine.Physics2D::GetRayIntersectionAll_Internal_Injected
+UnityEngine.Physics2D::IgnoreCollision_Injected
+UnityEngine.Physics2D::RaycastAll_Internal_Injected
+UnityEngine.Physics2D::OverlapCircleAll_Internal_Injected
 UnityEngine.PhysicsScene::Internal_Raycast_Injected
 UnityEngine.PhysicsScene::Internal_RaycastNonAlloc_Injected
 UnityEngine.PhysicsScene2D::GetRayIntersectionArray_Internal_Injected
@@ -1009,6 +1016,7 @@ UnityEngine.PlayerConnectionInternal::PollInternal
 UnityEngine.PlayerConnectionInternal::RegisterInternal_Injected
 UnityEngine.PlayerConnectionInternal::SendMessage_Injected
 UnityEngine.PlayerConnectionInternal::UnregisterInternal_Injected
+UnityEngine.PlayerPrefs::HasKey_Injected
 UnityEngine.PlayerPrefs::TrySetInt_Injected
 UnityEngine.PlayerPrefs::GetInt_Injected
 UnityEngine.PlayerPrefs::DeleteAll
@@ -1081,6 +1089,7 @@ UnityEngine.Renderer::set_allowGPUDrivenRendering_Injected
 UnityEngine.Renderer::set_enabled_Injected
 UnityEngine.Renderer::set_localBounds_Injected
 UnityEngine.Renderer::set_smallMeshCulling_Injected
+UnityEngine.Renderer::set_sortingOrder_Injected
 UnityEngine.Renderer::GetSharedMaterialArray_Injected
 UnityEngine.Rendering.AsyncGPUReadback::Request_Internal_GraphicsBuffer_1_Injected
 UnityEngine.Rendering.AsyncGPUReadback::Request_Internal_GraphicsBuffer_2_Injected
@@ -1410,10 +1419,12 @@ UnityEngine.ResourcesAPIInternal::Load_Injected
 UnityEngine.ResourcesAPIInternal::UnloadAsset_Injected
 UnityEngine.ResourcesAPIInternal::FindObjectsOfTypeAll
 UnityEngine.ResourcesAPIInternal::LoadAll_Injected
+UnityEngine.Rigidbody2D::get_gravityScale_Injected
 UnityEngine.Rigidbody2D::MovePosition_Injected
 UnityEngine.Rigidbody2D::get_linearVelocity_Injected
 UnityEngine.Rigidbody2D::get_position_Injected
 UnityEngine.Rigidbody2D::set_bodyType_Injected
+UnityEngine.Rigidbody2D::set_gravityScale_Injected
 UnityEngine.Rigidbody2D::set_linearVelocity_Injected
 UnityEngine.Rigidbody2D::set_simulated_Injected
 UnityEngine.ScalableBufferManager::get_heightScaleFactor
@@ -1484,6 +1495,7 @@ UnityEngine.Sprite::get_pivot_Injected
 UnityEngine.Sprite::get_rect_Injected
 UnityEngine.Sprite::get_uv_Injected
 UnityEngine.Sprite::get_vertices_Injected
+UnityEngine.SpriteRenderer::get_sprite_Injected
 UnityEngine.SpriteRenderer::get_color_Injected
 UnityEngine.SpriteRenderer::set_color_Injected
 UnityEngine.SpriteRenderer::set_flipX_Injected

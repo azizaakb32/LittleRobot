@@ -88,3 +88,6 @@ Robot (to'q sariq), Mushuk (binafsha), Qurbaqa (yashil), Pingvin (moviy). Barcha
 
 ## 100 daraja
 10 dunyo x 10 daraja: Zavod, O'rmon, Cho'l, Muz, Kosmos, Vulqon, Okean, Bulutlar, Shahar, Sehrli. Bo'laklar soni 2-darajada 4 ta, 100-darajada ~28 ta; har dunyoda qiyinlik oshadi, yangi to'siqlar birinchi dunyolarda tanishtiriladi.
+
+## Vertikal mexanikalar
+Narvon/arqon, devordan sakrash, bir tomonlama platformadan teshib tushish va nazorat bayroqlari qo'shildi. Har daraja tepaga ko'tarilib (minora, shaxta, platformalar zinasi) keyin pastga tushadi (narvon, platforma ustuni). 2-darajadan narvon, 4-darajadan devordan sakrash, 6-darajadan platforma ustuni tanishtiriladi.

@@ -7,6 +7,9 @@ public class CharacterDef
     public readonly string displayName;
     public readonly Color accent;
 
+    /// <summary>Tanlangan tildagi nomi.</summary>
+    public string Name { get { return Localization.T("char." + id); } }
+
     public CharacterDef(string id, string displayName, Color accent)
     {
         this.id = id;

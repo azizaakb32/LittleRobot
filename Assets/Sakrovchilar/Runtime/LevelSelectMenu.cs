@@ -41,6 +41,15 @@ public class LevelSelectMenu : MonoBehaviour
         }
     }
 
+    void OnEnable() { Localization.Changed += OnLanguageChanged; }
+    void OnDisable() { Localization.Changed -= OnLanguageChanged; }
+
+    void OnLanguageChanged()
+    {
+        ShowPage();
+        if (gatePanel != null && gatePanel.activeSelf) RefreshGate();
+    }
+
     void Start()
     {
         Time.timeScale = 1f;
@@ -109,8 +118,7 @@ public class LevelSelectMenu : MonoBehaviour
 
         if (titleText != null)
         {
-            string name = (worldNames != null && page < worldNames.Length) ? worldNames[page] : ("Dunyo " + (page + 1));
-            titleText.text = name;
+            titleText.text = Localization.T("world." + page);
         }
 
         if (lockBanner != null)
@@ -118,7 +126,7 @@ public class LevelSelectMenu : MonoBehaviour
             bool locked = !WorldGate.IsUnlocked(page);
             lockBanner.gameObject.SetActive(locked);
             if (locked && lockBannerText != null)
-                lockBannerText.text = "Qulf: " + WorldGate.CurrentStars(page) + "/" + WorldGate.Required + " yulduz. Ochish";
+                lockBannerText.text = Localization.T("ui.gate.banner", WorldGate.CurrentStars(page), WorldGate.Required);
         }
 
         bool multi = PageCount > 1;
@@ -159,17 +167,16 @@ public class LevelSelectMenu : MonoBehaviour
     {
         int have = WorldGate.CurrentStars(gateWorld);
         int need = WorldGate.Required;
-        string name = (worldNames != null && gateWorld < worldNames.Length) ? worldNames[gateWorld] : ("Dunyo " + (gateWorld + 1));
-        if (gateTitle != null) gateTitle.text = name + " qulflangan";
+        if (gateTitle != null) gateTitle.text = Localization.T("ui.gate.title", Localization.T("world." + gateWorld));
         if (gateInfo != null)
         {
             int missing = Mathf.Max(0, need - have);
-            gateInfo.text = "Ochish uchun oldingi dunyodan " + need + " yulduz kerak.\nSizda: " + have + " / " + need +
-                            (missing > 0 ? "\nYetishmayapti: " + missing : "");
+            gateInfo.text = Localization.T("ui.gate.info", need, have) +
+                            (missing > 0 ? Localization.T("ui.gate.missing", missing) : "");
         }
-        if (adButtonText != null) adButtonText.text = "Reklama ko'r (+" + GameInfo.StarsPerAd + " yulduz)";
+        if (adButtonText != null) adButtonText.text = Localization.T("ui.gate.ad", GameInfo.StarsPerAd);
         if (adButton != null) adButton.gameObject.SetActive(WorldGate.PreviousWorldFinished(gateWorld));
-        if (buyButtonText != null) buyButtonText.text = "Darhol ochish: " + StoreService.PriceText(StoreService.ProductForWorld(gateWorld));
+        if (buyButtonText != null) buyButtonText.text = Localization.T("ui.gate.buy", StoreService.PriceText(StoreService.ProductForWorld(gateWorld)));
     }
 
     public void CloseGate()
@@ -182,7 +189,7 @@ public class LevelSelectMenu : MonoBehaviour
         int world = gateWorld;
         AdService.ShowRewarded(ok =>
         {
-            if (!ok) { Toast("Reklama hozir mavjud emas. Keyinroq urinib ko'ring."); return; }
+            if (!ok) { Toast(Localization.T("toast.noAd")); return; }
             WorldGate.AddAdStars(world);
             AfterGateChange(world);
         });
@@ -193,7 +200,7 @@ public class LevelSelectMenu : MonoBehaviour
         int world = gateWorld;
         StoreService.Purchase(StoreService.ProductForWorld(world), ok =>
         {
-            if (!ok) { Toast("Xarid amalga oshmadi."); return; }
+            if (!ok) { Toast(Localization.T("toast.buyFail")); return; }
             WorldGate.UnlockByPurchase(world);
             AfterGateChange(world);
         });
@@ -207,7 +214,7 @@ public class LevelSelectMenu : MonoBehaviour
             CloseGate();
             page = Mathf.Clamp(world, 0, PageCount - 1);
             ShowPage();
-            Toast("Yangi dunyo ochildi!");
+            Toast(Localization.T("toast.unlocked"));
         }
         else
         {

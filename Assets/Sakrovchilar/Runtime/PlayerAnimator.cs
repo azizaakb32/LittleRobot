@@ -130,7 +130,18 @@ public class PlayerAnimator : MonoBehaviour
         Sprite frame;
         Vector3 target = Vector3.one;
 
-        if (!grounded)
+        if (controller.IsClimbing)
+        {
+            // Narvonda: harakatlansa yugurish kadrlari, to'xtasa jim
+            if (Mathf.Abs(v.y) > 0.3f && run != null && run.Length > 0)
+            {
+                runTime += Time.deltaTime * runFps * 0.7f;
+                frame = run[(int)runTime % run.Length];
+            }
+            else frame = idle;
+            target = Vector3.one;
+        }
+        else if (!grounded)
         {
             runTime = 0f;
             if (v.y > 0.1f)

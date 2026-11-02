@@ -69,6 +69,8 @@ public static class SakrovchilarBuilder
         new SpriteSpec("cloud", 64, 0),
         new SpriteSpec("hill", 32, 0),
         new SpriteSpec("sky", 64, 0),
+        new SpriteSpec("ladder", 128, 0),
+        new SpriteSpec("flag", 64, 0),
         new SpriteSpec("ui_round", 100, 24),
         new SpriteSpec("ui_circle", 100, 0),
         new SpriteSpec("icon_chevron", 100, 0),
@@ -381,8 +383,17 @@ public static class SakrovchilarBuilder
         foreach (var b in d.blocks)
         {
             Color topColor = b.kind == "wall" ? body : topC;
-            Block(string.IsNullOrEmpty(b.n) ? "Block" : b.n, root, b.x0, b.y0, b.x1, b.y1, body, topColor, ground);
+            var blockGo = Block(string.IsNullOrEmpty(b.n) ? "Block" : b.n, root, b.x0, b.y0, b.x1, b.y1, body, topColor, ground);
+            if (b.kind == "platform") MakeOneWay(blockGo);   // pastdan o'tib bo'ladi, tepasidan tushsa bo'lmaydi
         }
+
+        // ----- Narvonlar -----
+        if (d.ladders != null)
+            foreach (var l in d.ladders) MakeLadder(root, l);
+
+        // ----- Nazorat bayroqlari -----
+        if (d.checkpoints != null)
+            foreach (var c in d.checkpoints) MakeCheckpoint(root, new Vector3(c.x, c.y, 0f));
 
         // ----- Liftlar va harakatlanuvchi platformalar -----
         if (d.movers != null)
@@ -432,7 +443,7 @@ public static class SakrovchilarBuilder
         exit.doorSprite = doorSr;
 
         // ----- Robot -----
-        var player = MakePlayer(ground, new Vector3(d.spawn.x, d.spawn.y, 0f));
+        var player = MakePlayer(ground, new Vector3(d.spawn.x, d.spawn.y, 0f), d.boundsMin.y - 5f);
         follow.target = player.transform;
 
         // ----- Boshqaruvchi obyekt -----
@@ -552,6 +563,27 @@ public static class SakrovchilarBuilder
         near.rectTransform.pivot = new Vector2(0.5f, 0f);
         near.rectTransform.anchoredPosition = new Vector2(0f, -20f);
         near.rectTransform.sizeDelta = new Vector2(0f, 170f);
+    }
+
+    /// <summary>Text'ga tarjima kaliti beradi (til almashganda matn o'zi yangilanadi).</summary>
+    static Text Loc(Text t, string key)
+    {
+        var l = t.gameObject.AddComponent<LocalizedText>();
+        l.key = key;
+        t.text = Localization.T(key);
+        return t;
+    }
+
+    /// <summary>UZ / EN / RU almashtirish tugmasi.</summary>
+    static void AddLanguageButton(Transform ui, Vector2 anchor, Vector2 pos)
+    {
+        var btn = NewButton(ui, "LanguageButton", S("ui_round"), PanelColor, null, Color.white, 0f);
+        Place(btn, anchor, anchor, pos, new Vector2(60f, 44f));
+        var label = NewText(btn.transform, "Text", Localization.Code, 18, LightText, TextAnchor.MiddleCenter);
+        Stretch(label);
+        var lb = btn.gameObject.AddComponent<LanguageButton>();
+        lb.label = label;
+        UnityEventTools.AddPersistentListener(btn.onClick, lb.Cycle);
     }
 
     static Color HexOr(string hex, Color fallback)
@@ -684,6 +716,51 @@ public static class SakrovchilarBuilder
         return go;
     }
 
+    static void MakeOneWay(GameObject go)
+    {
+        var col = go.GetComponent<BoxCollider2D>();
+        col.usedByEffector = true;
+        var eff = go.AddComponent<PlatformEffector2D>();
+        eff.useOneWay = true;
+        eff.useSideFriction = false;
+        eff.useSideBounce = false;
+        eff.surfaceArc = 160f;
+    }
+
+    static void MakeLadder(Transform parent, LevelLadder l)
+    {
+        float h = l.y1 - l.y0;
+        var go = new GameObject("Ladder");
+        go.transform.SetParent(parent, false);
+        go.transform.position = new Vector3(l.x, (l.y0 + l.y1) * 0.5f, 0f);
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = S("ladder");
+        sr.drawMode = SpriteDrawMode.Tiled;
+        sr.tileMode = SpriteTileMode.Continuous;
+        sr.size = new Vector2(0.9f, h);
+        sr.sortingOrder = 2;
+        var col = go.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        col.size = new Vector2(0.9f, h);
+        var lad = go.AddComponent<Ladder>();
+        lad.exitDir = l.exitDir >= 0 ? 1 : -1;
+    }
+
+    static void MakeCheckpoint(Transform parent, Vector3 pos)
+    {
+        var go = new GameObject("Checkpoint");
+        go.transform.SetParent(parent, false);
+        go.transform.position = pos + new Vector3(0f, 0.25f, 0f);
+        var sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = S("flag");
+        sr.sortingOrder = 2;
+        var col = go.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        col.size = new Vector2(1.2f, 1.6f);
+        var cp = go.AddComponent<Checkpoint>();
+        cp.flag = sr;
+    }
+
     static void MakeSpike(Transform parent, Vector3 pos)
     {
         var go = new GameObject("Spikes");
@@ -714,7 +791,7 @@ public static class SakrovchilarBuilder
         pickup.type = type;
     }
 
-    static GameObject MakePlayer(int groundLayerIndex, Vector3 spawn)
+    static GameObject MakePlayer(int groundLayerIndex, Vector3 spawn, float killY)
     {
         EnsureFolder(PhysicsDir);
         string matPath = PhysicsDir + "/NoFriction.asset";
@@ -760,7 +837,7 @@ public static class SakrovchilarBuilder
         var pc = go.AddComponent<PlayerController>();
         pc.groundCheck = check.transform;
         pc.groundLayer = 1 << groundLayerIndex;
-        pc.killY = -9f;
+        pc.killY = killY;
 
         var anim = visual.AddComponent<PlayerAnimator>();
         anim.sr = sr;
@@ -819,6 +896,12 @@ public static class SakrovchilarBuilder
         var jump = NewTouchButton(hud, "JumpButton", S("ui_circle"), OrangeColor, S("icon_up"), DarkText, 44f, TouchButton.Kind.Jump);
         Place(jump, BR, BR, new Vector2(-16f, 16f), new Vector2(84f, 84f));
         jump.gameObject.AddComponent<CharacterAccent>();
+        // Narvon uchun yuqoriga / pastga (pastga + sakrash = platformadan tushish)
+        var up = NewTouchButton(hud, "UpButton", S("ui_round"), ButtonDark, S("icon_up"), LightText, 30f, TouchButton.Kind.Up);
+        Place(up, BR, BR, new Vector2(-112f, 80f), new Vector2(56f, 56f));
+        var down = NewTouchButton(hud, "DownButton", S("ui_round"), ButtonDark, S("icon_up"), LightText, 30f, TouchButton.Kind.Down);
+        Place(down, BR, BR, new Vector2(-112f, 16f), new Vector2(56f, 56f));
+        down.transform.Find("Icon").localScale = new Vector3(1f, -1f, 1f);
 
         // ----- G'alaba oynasi -----
         var winRoot = NewImage(hud, "WinOverlay", null, new Color(0f, 0f, 0f, 0.5f), true);
@@ -831,9 +914,9 @@ public static class SakrovchilarBuilder
         var panel = NewImage(winRoot.transform, "Panel", S("ui_round"), DialogColor, true);
         Place(panel, Mid, Mid, Vector2.zero, new Vector2(488f, 322f));
 
-        var worldTxt = NewText(panel.transform, "World", "Daraja tugadi", 15, MutedText, TextAnchor.MiddleCenter);
+        var worldTxt = Loc(NewText(panel.transform, "World", "Daraja tugadi", 15, MutedText, TextAnchor.MiddleCenter), "ui.levelDoneSmall");
         PlaceTop(worldTxt, 0f, -22f, 300f, 24f);
-        var title = NewText(panel.transform, "Title", "Daraja tugadi!", 34, LightText, TextAnchor.MiddleCenter);
+        var title = Loc(NewText(panel.transform, "Title", "Daraja tugadi!", 34, LightText, TextAnchor.MiddleCenter), "ui.levelDone");
         PlaceTop(title, 0f, -56f, 400f, 44f);
 
         float[] starSize = { 52f, 68f, 52f };
@@ -860,7 +943,7 @@ public static class SakrovchilarBuilder
         var nextBtn = NewButton(panel.transform, "NextButton", S("ui_round"), OrangeColor, null, Color.white, 0f);
         PlaceTop(nextBtn, 68f, -234f, 160f, 56f);
         nextBtn.gameObject.AddComponent<CharacterAccent>();
-        var nextLabel = NewText(nextBtn.transform, "Text", "Keyingi", 22, DarkText, TextAnchor.MiddleCenter);
+        var nextLabel = Loc(NewText(nextBtn.transform, "Text", "Keyingi", 22, DarkText, TextAnchor.MiddleCenter), "ui.next");
         Place(nextLabel, Mid, Mid, new Vector2(-12f, 0f), new Vector2(100f, 56f));
         var nextIcon = NewImage(nextBtn.transform, "Icon", S("icon_chevron"), DarkText, false);
         Place(nextIcon, Mid, Mid, new Vector2(50f, 0f), new Vector2(22f, 22f));
@@ -870,7 +953,7 @@ public static class SakrovchilarBuilder
         PlaceTop(rewardBtn, 0f, -290f, 330f, 44f);
         var rewardIcon = NewImage(rewardBtn.transform, "Icon", S("icon_play"), DarkText, false);
         Place(rewardIcon, Mid, Mid, new Vector2(-148f, 0f), new Vector2(16f, 16f));
-        var rewardText = NewText(rewardBtn.transform, "Text", "Tangalarni 2 barobar qilish (reklama)", 16, DarkText, TextAnchor.MiddleCenter);
+        var rewardText = Loc(NewText(rewardBtn.transform, "Text", "Tangalarni 2 barobar qilish (reklama)", 16, DarkText, TextAnchor.MiddleCenter), "ui.reward2x");
         Place(rewardText, Mid, Mid, new Vector2(8f, 0f), new Vector2(290f, 44f));
         UnityEventTools.AddPersistentListener(rewardBtn.onClick, gm.OnRewardedDoubleCoins);
 
@@ -879,18 +962,18 @@ public static class SakrovchilarBuilder
         Stretch(pauseRoot);
         var pausePanel = NewImage(pauseRoot.transform, "Panel", S("ui_round"), DialogColor, true);
         Place(pausePanel, Mid, Mid, Vector2.zero, new Vector2(300f, 220f));
-        var pauseTitle = NewText(pausePanel.transform, "Title", "Pauza", 30, LightText, TextAnchor.MiddleCenter);
+        var pauseTitle = Loc(NewText(pausePanel.transform, "Title", "Pauza", 30, LightText, TextAnchor.MiddleCenter), "ui.pause");
         PlaceTop(pauseTitle, 0f, -38f, 240f, 40f);
 
         var resumeBtn = NewButton(pausePanel.transform, "ResumeButton", S("ui_round"), OrangeColor, null, Color.white, 0f);
         PlaceTop(resumeBtn, 0f, -104f, 220f, 52f);
-        var resumeText = NewText(resumeBtn.transform, "Text", "Davom etish", 22, DarkText, TextAnchor.MiddleCenter);
+        var resumeText = Loc(NewText(resumeBtn.transform, "Text", "Davom etish", 22, DarkText, TextAnchor.MiddleCenter), "ui.resume");
         Stretch(resumeText);
         UnityEventTools.AddPersistentListener(resumeBtn.onClick, gm.TogglePause);
 
         var again = NewButton(pausePanel.transform, "RestartButton", S("ui_round"), ButtonDark, null, Color.white, 0f);
         PlaceTop(again, 0f, -166f, 220f, 52f);
-        var againText = NewText(again.transform, "Text", "Qayta boshlash", 20, LightText, TextAnchor.MiddleCenter);
+        var againText = Loc(NewText(again.transform, "Text", "Qayta boshlash", 20, LightText, TextAnchor.MiddleCenter), "ui.restart");
         Stretch(againText);
         UnityEventTools.AddPersistentListener(again.onClick, gm.RestartLevel);
 
@@ -954,6 +1037,8 @@ public static class SakrovchilarBuilder
         Place(charIcon, Mid, Mid, Vector2.zero, new Vector2(36f, 36f));
         charIcon.gameObject.AddComponent<SelectedCharacterIcon>();
         UnityEventTools.AddPersistentListener(charBtn.onClick, menu.OpenCharacterSelect);
+
+        AddLanguageButton(ui, TR, new Vector2(-236f, -20f));
 
         var starsPanel = NewImage(ui, "StarsPanel", S("ui_round"), PanelColor, false);
         Place(starsPanel, TR, TR, new Vector2(-24f, -20f), new Vector2(152f, 44f));
@@ -1061,9 +1146,11 @@ public static class SakrovchilarBuilder
         Transform ui = canvas.transform;
         AddMenuScenery(ui);
 
+        AddLanguageButton(ui, TR, new Vector2(-20f, -20f));
+
         var title = NewText(ui, "Title", GameInfo.Title, 44, LightText, TextAnchor.MiddleCenter);
         PlaceTop(title, 0f, -36f, 600f, 56f);
-        var subtitle = NewText(ui, "Subtitle", GameInfo.Subtitle, 18, MutedText, TextAnchor.MiddleCenter);
+        var subtitle = NewText(ui, "Subtitle", Localization.T("ui.chooseHero"), 18, MutedText, TextAnchor.MiddleCenter);
         PlaceTop(subtitle, 0f, -80f, 500f, 26f);
 
         int n = CharacterCatalog.All.Length;
@@ -1089,7 +1176,7 @@ public static class SakrovchilarBuilder
             portrait.preserveAspect = true;
             Place(portrait, Mid, Mid, new Vector2(0f, 18f), new Vector2(110f, 130f));
 
-            var nameText = NewText(card.transform, "Name", character.displayName, 22, LightText, TextAnchor.MiddleCenter);
+            var nameText = NewText(card.transform, "Name", character.Name, 22, LightText, TextAnchor.MiddleCenter);
             Place(nameText, Mid, Mid, new Vector2(0f, -84f), new Vector2(150f, 30f));
 
             cards[i] = new CharacterCardUI { button = btn, portrait = portrait, highlight = highlight, nameText = nameText };
@@ -1097,7 +1184,7 @@ public static class SakrovchilarBuilder
 
         var play = NewButton(ui, "PlayButton", S("ui_round"), OrangeColor, null, Color.white, 0f);
         Place(play, BC, BC, new Vector2(0f, 14f), new Vector2(220f, 52f));
-        var playText = NewText(play.transform, "Text", "O'ynash", 24, DarkText, TextAnchor.MiddleCenter);
+        var playText = Loc(NewText(play.transform, "Text", "O'ynash", 24, DarkText, TextAnchor.MiddleCenter), "ui.play");
         Place(playText, Mid, Mid, new Vector2(-10f, 0f), new Vector2(140f, 52f));
         var playIcon = NewImage(play.transform, "Icon", S("icon_play"), DarkText, false);
         Place(playIcon, Mid, Mid, new Vector2(62f, 0f), new Vector2(22f, 22f));
